@@ -1,4 +1,5 @@
 import Navbar from './components/Navbar.jsx';
+import CustomCursor from './components/CustomCursor.jsx';
 
 import AboutMe from "./sections/AboutMe.jsx"
 import Contact from './sections/Contact.jsx';
@@ -11,7 +12,8 @@ import './index.css';
 
 const App = () => {
     return(
-            <div className='relative w-full min-h-screen'>
+            <div className='relative w-full min-h-screen bg-bg text-text-primary font-body selection:bg-accent selection:text-black overflow-x-hidden'>
+                <CustomCursor />
                 
                 <div className="relative z-10">
                     <Navbar />

@@ -5,12 +5,12 @@ export const personal = {
   name: "Muizz Ahmed",
   role: "Full-Stack Developer",
   tagline: "Building things for the web.",
-  bio: "I'm a B.Tech IT student at Manipal Institute of Technology with a passion for full-stack development and systems thinking. I enjoy building products that are both technically solid and genuinely useful",
+  bio: "I'm a pre-final year student pursuing B.Tech in Information Technology student at Manipal Institute of Technology with a passion for full-stack development and systems thinking. I enjoy building products that are both technically solid and genuinely useful",
   email: "mmdmuizzahmed.09.a@gmail.com",
   phone: "+91 8882568682",
   location: "Gurugram, Haryana",
   github: "https://github.com/Muizzahmed786",
-  linkedin: "https://www.linkedin.com/in/m-md-muizz-ahmed-080936324/", 
+  linkedin: "https://www.linkedin.com/in/m-md-muizz-ahmed-080936324/",
   avatar: "/images/profile.jpg",
   handle: "muizzahmed"
 };
