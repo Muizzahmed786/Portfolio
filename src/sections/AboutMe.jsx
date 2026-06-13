@@ -7,7 +7,7 @@ import Reveal from '../components/Reveal.jsx';
 
 const AboutMe = () => {
     return (
-        <section id='about' className='relative min-h-screen z-0 scroll-mt-24 bg-bg overflow-hidden flex items-center'>
+        <section id='about' className='relative min-h-screen z-0 scroll-mt-5 bg-bg overflow-hidden flex items-center'>
             {/* Background Animation Layer */}
             <div className="absolute inset-0 pointer-events-none z-0">
                 <LightRays
@@ -27,7 +27,7 @@ const AboutMe = () => {
                 />
             </div>
 
-            <div className="relative z-10 text-text-primary w-full max-w-[1100px] mx-auto px-6 md:px-12 py-32 flex flex-col justify-center items-center text-center">
+            <div className="relative z-10 text-text-primary w-full max-w-275 mx-auto px-6 md:px-12 py-16 flex flex-col justify-center items-center text-center">
                 
                 <Reveal className="space-y-6 max-w-3xl flex flex-col items-center">
                     <span className="section-eyebrow">
@@ -47,7 +47,7 @@ const AboutMe = () => {
                             href="/resume.pdf" 
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-5 py-3 border border-border rounded-[4px] hover:border-accent hover:bg-accent-muted text-text-primary hover:text-accent font-mono text-xs uppercase tracking-wider transition-all duration-200 group"
+                            className="inline-flex items-center gap-2 px-5 py-3 border border-border rounded-sm hover:border-accent hover:bg-accent-muted text-text-primary hover:text-accent font-mono text-xs uppercase tracking-wider transition-all duration-200 group"
                         >
                             <FileText size={14} className="group-hover:scale-110 transition-transform duration-200" />
                             <span>resume</span>
@@ -57,7 +57,7 @@ const AboutMe = () => {
                             href={personal.github} 
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-5 py-3 border border-border rounded-[4px] hover:border-accent hover:bg-accent-muted text-text-primary hover:text-accent font-mono text-xs uppercase tracking-wider transition-all duration-200 group"
+                            className="inline-flex items-center gap-2 px-5 py-3 border border-border rounded-sm hover:border-accent hover:bg-accent-muted text-text-primary hover:text-accent font-mono text-xs uppercase tracking-wider transition-all duration-200 group"
                         >
                             <FaGithub size={14} className="group-hover:scale-110 transition-transform duration-200" />
                             <span>github</span>
@@ -67,7 +67,7 @@ const AboutMe = () => {
                             href={personal.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-5 py-3 border border-border rounded-[4px] hover:border-accent hover:bg-accent-muted text-text-primary hover:text-accent font-mono text-xs uppercase tracking-wider transition-all duration-200 group"
+                            className="inline-flex items-center gap-2 px-5 py-3 border border-border rounded-sm hover:border-accent hover:bg-accent-muted text-text-primary hover:text-accent font-mono text-xs uppercase tracking-wider transition-all duration-200 group"
                         >
                             <FaLinkedinIn size={14} className="group-hover:scale-110 transition-transform duration-200" />
                             <span>linkedin</span>

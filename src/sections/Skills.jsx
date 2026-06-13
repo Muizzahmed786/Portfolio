@@ -5,7 +5,7 @@ import Reveal from "../components/Reveal.jsx";
 
 const Skills = () => {
     return (
-        <section id="skills" className="text-text-primary min-h-screen scroll-mt-24 max-w-[1100px] mx-auto px-6 md:px-12 py-32 bg-bg flex flex-col justify-center">
+        <section id="skills" className="text-text-primary min-h-screen max-w-275 mx-auto px-6 md:px-12 py-16 bg-bg flex flex-col justify-center">
              
              {/* Section Header */}
              <Reveal className="mb-16">

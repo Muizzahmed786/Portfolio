@@ -5,7 +5,8 @@ import Reveal from "../components/Reveal.jsx";
 
 const Contact = () => {
     return (
-        <section id="contact" className="text-text-primary min-h-screen scroll-mt-24 max-w-[1100px] mx-auto px-6 md:px-12 py-32 bg-bg flex flex-col justify-center">
+        <section id="contact" className="text-text-primary min-h-screen scroll-mt-5 max-w-275 mx-auto px-6 md:px-12 py-16
+         bg-bg flex flex-col justify-center">
             
             {/* Section Header */}
             <Reveal className="mb-16">
@@ -19,7 +20,7 @@ const Contact = () => {
 
             {/* Dossier Terminal */}
             <Reveal delay={0.15}>
-                <div className="max-w-3xl mx-auto w-full p-8 border border-border bg-surface rounded-[4px] relative overflow-hidden">
+                <div className="max-w-3xl mx-auto w-full p-8 border border-border bg-surface rounded-sm relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 font-mono text-[9px] text-text-muted select-none">
                         COORD // 45.10.99
                     </div>
@@ -51,7 +52,7 @@ const Contact = () => {
                         <div className="flex flex-col justify-center items-center gap-4 border-t md:border-t-0 md:border-l border-border pt-6 md:pt-0 md:pl-8">
                             <a 
                                 href={`mailto:${personal.email}`}
-                                className="w-full flex items-center justify-center gap-2.5 px-6 py-4 border border-border bg-bg hover:bg-accent-muted text-text-primary hover:text-accent font-mono text-xs uppercase tracking-widest rounded-[4px] transition-all duration-200 cursor-pointer"
+                                className="w-full flex items-center justify-center gap-2.5 px-6 py-4 border border-border bg-bg hover:bg-accent-muted text-text-primary hover:text-accent font-mono text-xs uppercase tracking-widest rounded-sm transition-all duration-200 cursor-pointer"
                             >
                                 <Send size={14} />
                                 <span>Contact Me</span>

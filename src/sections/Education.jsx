@@ -8,7 +8,7 @@ const Education = () => {
     const collegeData = education.find(edu => edu.semesters);
 
     return (
-        <section id="education" className="text-text-primary min-h-screen scroll-mt-24 max-w-275 mx-auto px-6 md:px-12 py-32 bg-bg flex flex-col justify-center">
+        <section id="education" className="text-text-primary min-h-screen scroll-mt-5 max-w-275 mx-auto px-6 md:px-12 py-16 bg-bg flex flex-col justify-center">
             
             {/* Section Header */}
             <Reveal className="mb-16">

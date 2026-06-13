@@ -6,7 +6,7 @@ import Reveal from "../components/Reveal.jsx";
 
 const Projects = () => {
     return (
-        <section id="projects" className="text-text-primary min-h-screen scroll-mt-24 max-w-[1100px] mx-auto px-6 md:px-12 py-32 bg-bg flex flex-col justify-center">
+        <section id="projects" className="text-text-primary min-h-screen scroll-mt-5 max-w-275 mx-auto px-6 md:px-12 py-16 bg-bg flex flex-col justify-center">
             
             {/* Section Header */}
             <Reveal className="mb-16">
@@ -22,7 +22,7 @@ const Projects = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {projects.map((project, index) => (
                     <Reveal key={index} delay={index * 0.15} className="h-full">
-                        <div className="p-8 border border-border bg-surface rounded-[4px] project-card group flex flex-col justify-between h-full">
+                        <div className="p-8 border border-border bg-surface rounded-sm project-card group flex flex-col justify-between h-full">
                             <div className="space-y-6">
                                 {/* Card Top / Header */}
                                 <div className="flex justify-between items-center">
