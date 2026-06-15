@@ -5,23 +5,26 @@ const Reveal = ({ children, delay = 0, className = '' }) => {
   const [isIntersecting, setIsIntersecting] = useState(false);
 
   useEffect(() => {
+    const currentRef = ref.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsIntersecting(true);
-          observer.unobserve(entry.target);
+          if (currentRef) {
+            observer.unobserve(currentRef);
+          }
         }
       },
       { threshold: 0.15 }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);

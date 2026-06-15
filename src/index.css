@@ -199,3 +199,8 @@ body.custom-cursor-active * {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Custom Cursor Ring Transitions */
+.custom-cursor-ring {
+  transition: background-color 300ms ease-out, border-color 300ms ease-out, scale 300ms ease-out, opacity 300ms ease-out, box-shadow 300ms ease-out;
+}
