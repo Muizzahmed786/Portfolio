@@ -192,6 +192,26 @@ body.custom-cursor-active * {
   animation: flicker 4s ease-in-out 0.5s 1 forwards;
 }
 
+@layer utilities {
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 75s linear infinite;
+  }
+
+  /* Pauses the carousel when a user hovers over it */
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+}
+
 /* Reduced Motion Fallback */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
