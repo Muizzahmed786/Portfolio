@@ -14,13 +14,13 @@ const AboutMe = () => {
                     raysOrigin="top-center"
                     raysColor="#f5c518"
                     raysSpeed={0.5}
-                    lightSpread={0.5}
+                    lightSpread={0.6}
                     rayLength={2.0}
                     followMouse={true}
                     mouseInfluence={0.1}
                     noiseAmount={0.05}
                     distortion={0.05}
-                    className="custom-rays opacity-50"
+                    className="custom-rays opacity-85"
                     pulsating={true}
                     fadeDistance={1.2}
                     saturation={0.7}
