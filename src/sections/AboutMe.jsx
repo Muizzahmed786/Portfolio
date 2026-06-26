@@ -44,7 +44,7 @@ const AboutMe = () => {
 
                     <div className="flex flex-wrap justify-center gap-4 pt-6">
                         <a 
-                            href="/muizz-resume.pdf" 
+                            href="/muizz-resume-1.pdf" 
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 px-5 py-3 border border-border rounded-sm hover:border-accent hover:bg-accent-muted text-text-primary hover:text-accent font-mono text-xs uppercase tracking-wider transition-all duration-200 group"
