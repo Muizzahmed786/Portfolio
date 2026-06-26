@@ -118,7 +118,7 @@ export const projects = [
     title: "Aurora'26 Web Portal",
     stack: ["React.js", "Tailwind CSS", "REST API"],
     description:
-      "Official website for Aurora'26 fest, supporting 600+ registrations with team creation, join/leave flows, and full form validation.",
+      "Official website for Aurora'26 by ISTE Manipal, supporting 600+ registrations with team creation, join/leave flows, and full form validation.",
     highlights: [
       "Integrated backend REST APIs for user registration, team management, and form validation.",
       "Built a responsive navbar and footer used consistently across all pages and devices.",
