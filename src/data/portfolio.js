@@ -112,7 +112,7 @@ export const projects = [
       "Four-layer REST API (Service → Controller → Route → Server) with real-time graph sync and context-based UI notifications.",
     ],
     link: "https://concept-map-ten.vercel.app/",
-    github: "", // add if public
+    github: "https://github.com/Muizzahmed786/ConceptMap", // add if public
   },
   {
     title: "Aurora'26 Web Portal",

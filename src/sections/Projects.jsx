@@ -26,15 +26,9 @@ const Projects = () => {
                             <div className="space-y-6">
                                 {/* Card Top / Header */}
                                 <div className="flex justify-between items-center">
-                                    <div className="flex items-center gap-3">
-                                        {/* Added Folder Icon for visual balance */}
-                                        <Folder size={20} className="text-accent opacity-80" />
-                                        <span className="font-mono text-[10px] tracking-wider text-accent uppercase">
-                                            // project #{String(index + 1).padStart(2, "0")}
-                                        </span>
-                                    </div>
-                                    
-                                    {/* Action Links */}
+                                    <span className="font-mono text-[10px] tracking-wider text-accent uppercase">
+                                        // project #{String(index + 1).padStart(2, "0")}
+                                    </span>
                                     <div className="flex items-center gap-3">
                                         {project.github && (
                                             <a 
@@ -44,7 +38,7 @@ const Projects = () => {
                                                 className="text-text-secondary hover:text-accent transition-colors duration-200"
                                                 aria-label="GitHub Repository"
                                             >
-                                                <FaGithub size={18} className="transform group-hover:scale-110 transition-transform" />
+                                                <FaGithub size={16} />
                                             </a>
                                         )}
                                         {project.link && (
@@ -55,7 +49,7 @@ const Projects = () => {
                                                 className="text-text-secondary hover:text-accent transition-colors duration-200"
                                                 aria-label="Project Link"
                                             >
-                                                <ExternalLink size={18} className="transform group-hover:scale-110 transition-transform" />
+                                                <ExternalLink size={16} />
                                             </a>
                                         )}
                                     </div>

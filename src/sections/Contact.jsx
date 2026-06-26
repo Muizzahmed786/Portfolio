@@ -21,11 +21,6 @@ const Contact = () => {
             {/* Dossier Terminal */}
             <Reveal delay={0.15}>
                 <div className="max-w-3xl mx-auto w-full p-8 border border-border bg-surface rounded-sm relative overflow-hidden">
-
-                    <h3 className="text-sm font-bold font-mono uppercase tracking-wider text-text-primary mb-6 pb-4 border-b border-border">
-                        // case dossier: inquiry portal
-                    </h3>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Diagnostic Info */}
                         <div className="space-y-6">
