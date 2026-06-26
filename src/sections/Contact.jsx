@@ -21,9 +21,6 @@ const Contact = () => {
             {/* Dossier Terminal */}
             <Reveal delay={0.15}>
                 <div className="max-w-3xl mx-auto w-full p-8 border border-border bg-surface rounded-sm relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-4 font-mono text-[9px] text-text-muted select-none">
-                        COORD // 45.10.99
-                    </div>
 
                     <h3 className="text-sm font-bold font-mono uppercase tracking-wider text-text-primary mb-6 pb-4 border-b border-border">
                         // case dossier: inquiry portal
@@ -57,11 +54,6 @@ const Contact = () => {
                                 <Send size={14} />
                                 <span>Contact Me</span>
                             </a>
-                            
-                            <div className="font-mono text-[10px] text-text-secondary/60 uppercase text-center mt-2 flex items-center justify-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
-                                <span>comms rail secure // end-to-end</span>
-                            </div>
                         </div>
                     </div>
                 </div>
