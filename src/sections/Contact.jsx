@@ -44,7 +44,7 @@ const Contact = () => {
                         <div className="flex flex-col justify-center items-center gap-4 border-t md:border-t-0 md:border-l border-border pt-6 md:pt-0 md:pl-8">
                             <a 
                                 href={`mailto:${personal.email}`}
-                                className="w-full flex items-center justify-center gap-2.5 px-6 py-4 border border-border bg-bg hover:bg-accent-muted text-text-primary hover:text-accent font-mono text-xs uppercase tracking-widest rounded-sm transition-all duration-200 cursor-pointer"
+                                className="w-full flex items-center justify-center gap-2.5 px-6 py-4 border border-border bg-bg hover:bg-accent-muted text-text-primary hover:text-accent font-display text-xs uppercase tracking-widest rounded-sm transition-all duration-200 cursor-pointer"
                             >
                                 <Send size={14} />
                                 <span>Contact Me</span>

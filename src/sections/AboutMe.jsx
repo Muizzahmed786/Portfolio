@@ -34,7 +34,7 @@ const AboutMe = () => {
                         about-me
                     </span>
                     
-                    <h1 className="hero-name font-display text-text-primary tracking-[-0.03em] font-extrabold leading-none uppercase pt-2" style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)' }}>
+                    <h1 className="hero-name font-heading text-text-primary tracking-[-0.03em] font-extrabold leading-none uppercase pt-2" style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)' }}>
                         Hi, I'm {personal.name}
                     </h1>
                     
@@ -47,7 +47,7 @@ const AboutMe = () => {
                             href="/public/muizz-resume-1.pdf" 
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-5 py-3 border border-border rounded-sm hover:border-accent hover:bg-accent-muted text-text-primary hover:text-accent font-mono text-xs uppercase tracking-wider transition-all duration-200 group"
+                            className="inline-flex items-center gap-2 px-5 py-3 border border-border rounded-sm hover:border-accent hover:bg-accent-muted text-text-primary hover:text-accent font-display text-xs uppercase tracking-wider transition-all duration-200 group"
                         >
                             <FileText size={14} className="group-hover:scale-110 transition-transform duration-200" />
                             <span>resume</span>
@@ -57,7 +57,7 @@ const AboutMe = () => {
                             href={personal.github} 
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-5 py-3 border border-border rounded-sm hover:border-accent hover:bg-accent-muted text-text-primary hover:text-accent font-mono text-xs uppercase tracking-wider transition-all duration-200 group"
+                            className="inline-flex items-center gap-2 px-5 py-3 border border-border rounded-sm hover:border-accent hover:bg-accent-muted text-text-primary hover:text-accent font-display text-xs uppercase tracking-wider transition-all duration-200 group"
                         >
                             <FaGithub size={14} className="group-hover:scale-110 transition-transform duration-200" />
                             <span>github</span>
@@ -67,7 +67,7 @@ const AboutMe = () => {
                             href={personal.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-5 py-3 border border-border rounded-sm hover:border-accent hover:bg-accent-muted text-text-primary hover:text-accent font-mono text-xs uppercase tracking-wider transition-all duration-200 group"
+                            className="inline-flex items-center gap-2 px-5 py-3 border border-border rounded-sm hover:border-accent hover:bg-accent-muted text-text-primary hover:text-accent font-display text-xs uppercase tracking-wider transition-all duration-200 group"
                         >
                             <FaLinkedinIn size={14} className="group-hover:scale-110 transition-transform duration-200" />
                             <span>linkedin</span>

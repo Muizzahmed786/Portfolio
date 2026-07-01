@@ -36,7 +36,7 @@ const Navbar = () => {
                             <button 
                                 type="button"
                                 onClick={() => scrollFunction(item.id)}
-                                className="nav-link font-mono text-xs font-medium tracking-wide cursor-pointer"
+                                className="nav-link font-display text-xs font-medium tracking-wide cursor-pointer"
                             >
                                 {item.label.toLowerCase()}
                             </button>

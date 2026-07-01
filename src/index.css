@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Equinox';
+  src: url('./assets/fonts/Equinox-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Equinox';
+  src: url('./assets/fonts/Equinox-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
 @theme {
   --color-bg: #0d0d0d;
   --color-surface: #141414;
@@ -11,6 +25,7 @@
   --color-text-muted: #3d3d3d;
   --color-code-prefix: #f5c518;
 
+  --font-heading: "Equinox", "Space Grotesk", sans-serif;
   --font-display: "Space Grotesk", sans-serif;
   --font-body: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
@@ -40,6 +55,7 @@
   --space-2xl:  128px;
 
   /* Typography */
+  --font-heading: "Equinox", "Space Grotesk", sans-serif;
   --font-display: "Space Grotesk", sans-serif;
   --font-body:    "Inter", sans-serif;
   --font-mono:    "JetBrains Mono", monospace;
@@ -75,7 +91,7 @@ body {
 }
 
 .section-heading {
-  font-family: var(--font-display);
+  font-family: var(--font-heading);
   font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 700;
   letter-spacing: -0.02em;
