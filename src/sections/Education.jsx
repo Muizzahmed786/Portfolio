@@ -2,13 +2,28 @@ import React from "react";
 import { GraduationCap, School, Calendar, MapPin, Activity } from "lucide-react";
 import { education } from "../data/portfolio.js";
 import Reveal from "../components/Reveal.jsx";
+import SoftAurora from "../animations/SoftAurora.jsx";
 
 const Education = () => {
     // Safely grabbing the college data for the horizontal timeline
     const collegeData = education.find(edu => edu.semesters);
 
     return (
-        <section id="education" className="text-text-primary min-h-screen scroll-mt-5 max-w-275 mx-auto px-6 md:px-12 py-16 bg-bg flex flex-col justify-center">
+        <section id="education" className="relative min-h-screen z-0 scroll-mt-5 bg-bg overflow-hidden flex items-center">
+            {/* Background Animation Layer */}
+            <div className="absolute inset-0 pointer-events-none z-0 opacity-20">
+                <SoftAurora
+                    speed={0.3}
+                    scale={1.2}
+                    brightness={0.7}
+                    color1="#f5c518"
+                    color2="#d4af37"
+                    enableMouseInteraction={true}
+                    mouseInfluence={0.15}
+                />
+            </div>
+
+            <div className="relative z-10 text-text-primary w-full max-w-275 mx-auto px-6 md:px-12 py-16 flex flex-col justify-center">
             
             {/* Section Header */}
             <Reveal className="mb-16">
@@ -108,6 +123,7 @@ const Education = () => {
                 </Reveal>
             )}
 
+            </div>
         </section>
     );
 };

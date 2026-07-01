@@ -2,11 +2,25 @@ import React from "react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { personal } from "../data/portfolio.js";
 import Reveal from "../components/Reveal.jsx";
+import SoftAurora from "../animations/SoftAurora.jsx";
 
 const Contact = () => {
     return (
-        <section id="contact" className="text-text-primary min-h-screen scroll-mt-5 max-w-275 mx-auto px-6 md:px-12 py-16
-         bg-bg flex flex-col justify-center">
+        <section id="contact" className="relative min-h-screen z-0 scroll-mt-5 bg-bg overflow-hidden flex items-center">
+            {/* Background Animation Layer */}
+            <div className="absolute inset-0 pointer-events-none z-0 opacity-20">
+                <SoftAurora
+                    speed={0.25}
+                    scale={1.4}
+                    brightness={0.7}
+                    color1="#f5c518"
+                    color2="#806000"
+                    enableMouseInteraction={true}
+                    mouseInfluence={0.12}
+                />
+            </div>
+
+            <div className="relative z-10 text-text-primary w-full max-w-275 mx-auto px-6 md:px-12 py-16 flex flex-col justify-center">
             
             {/* Section Header */}
             <Reveal className="mb-16">
@@ -54,6 +68,7 @@ const Contact = () => {
                 </div>
             </Reveal>
 
+            </div>
         </section>
     );
 };
