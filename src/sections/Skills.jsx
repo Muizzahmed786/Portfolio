@@ -39,7 +39,16 @@ const iconMap = {
 
 const Skills = () => {
     const allSkills = skills.filter(category => category.category !== "Coursework").flatMap(category => category.items);
-    const tripleSkills = [...allSkills, ...allSkills, ...allSkills];
+    
+    // Group into rows for Pascal's Triangle layout
+    let currentIndex = 0;
+    let rowSize = 1;
+    const rows = [];
+    while (currentIndex < allSkills.length) {
+        rows.push(allSkills.slice(currentIndex, currentIndex + rowSize));
+        currentIndex += rowSize;
+        rowSize++;
+    }
 
     return (
         <section id="skills" className="relative z-0 scroll-mt-5 bg-transparent overflow-hidden py-16">
@@ -47,12 +56,12 @@ const Skills = () => {
              
              <Reveal delay={0.15}>
                  <BentoGrid>
-                    {/* Skills Marquee Bento Block */}
+                    {/* Skills Triangle Bento Block */}
                     <BentoCard className="col-span-1 md:col-span-12 lg:col-span-12 flex flex-col justify-center" noPadding={true}>
                         
-                        <div className="flex flex-col md:flex-row md:items-center">
+                        <div className="flex flex-col xl:flex-row">
                             {/* Label Area */}
-                            <div className="p-6 md:p-8 md:border-r border-border border-b md:border-b-0 min-w-[200px] flex flex-col justify-center z-10 bg-surface">
+                            <div className="p-6 md:p-8 xl:border-r border-border border-b xl:border-b-0 min-w-[200px] flex flex-col justify-center z-10 bg-surface">
                                 <span className="section-eyebrow mb-2">
                                     capabilities
                                 </span>
@@ -61,39 +70,43 @@ const Skills = () => {
                                 </h2>
                             </div>
 
-                            {/* Marquee Area */}
-                            <div className="relative flex-1 flex overflow-hidden py-6 bg-surface/30 mask-gradient items-center min-h-[120px]">
-                                <div className="flex space-x-6 whitespace-nowrap animate-marquee px-6">
-                                    {tripleSkills.map((skill, index) => {
-                                        const skillData = iconMap[skill];
-                                        const brandColor = skillData?.color || "var(--color-accent)";
-                                        const url = techUrls[skill] || "#";
-                                        
-                                        const ItemWrapper = url !== "#" ? 'a' : 'div';
-                                        
-                                        return (
-                                            <ItemWrapper 
-                                                key={`${skill}-${index}`}
-                                                href={url !== "#" ? url : undefined}
-                                                target={url !== "#" ? "_blank" : undefined}
-                                                rel={url !== "#" ? "noopener noreferrer" : undefined}
-                                                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-sm border bg-surface text-text-primary transition-all duration-200 cursor-pointer uppercase shadow-sm hover:-translate-y-0.5 group"
-                                                style={{ borderColor: `${brandColor}20` }}
-                                            >
-                                                {skillData && (
-                                                    <span 
-                                                        className="text-lg transition-transform duration-200 group-hover:scale-110"
-                                                        style={{ color: brandColor }}
+                            {/* Triangle Area */}
+                            <div className="relative flex-1 flex justify-center py-10 md:py-16 bg-surface/30">
+                                <div className="flex flex-col items-center gap-2 md:gap-3 w-full px-2 md:px-4">
+                                    {rows.map((row, rIdx) => (
+                                        <div key={rIdx} className="flex flex-row flex-nowrap justify-center gap-1.5 md:gap-2.5 w-full">
+                                            {row.map((skill, sIdx) => {
+                                                const skillData = iconMap[skill];
+                                                const brandColor = skillData?.color || "var(--color-accent)";
+                                                const url = techUrls[skill] || "#";
+                                                
+                                                const ItemWrapper = url !== "#" ? 'a' : 'div';
+                                                
+                                                return (
+                                                    <ItemWrapper 
+                                                        key={`${skill}-${sIdx}`}
+                                                        href={url !== "#" ? url : undefined}
+                                                        target={url !== "#" ? "_blank" : undefined}
+                                                        rel={url !== "#" ? "noopener noreferrer" : undefined}
+                                                        className="inline-flex items-center gap-1.5 px-2 py-1.5 md:px-3 md:py-2 rounded-sm border bg-surface text-text-primary transition-all duration-200 cursor-pointer uppercase shadow-sm hover:scale-105 group whitespace-nowrap"
+                                                        style={{ borderColor: `${brandColor}30` }}
                                                     >
-                                                        {skillData.icon}
-                                                    </span>
-                                                )}
-                                                <span className="font-mono text-xs tracking-wide text-text-secondary group-hover:text-text-primary transition-colors duration-200">
-                                                    {skill}
-                                                </span>
-                                            </ItemWrapper>
-                                        );
-                                    })}
+                                                        {skillData && (
+                                                            <span 
+                                                                className="text-sm md:text-base transition-transform duration-200 group-hover:scale-110"
+                                                                style={{ color: brandColor }}
+                                                            >
+                                                                {skillData.icon}
+                                                            </span>
+                                                        )}
+                                                        <span className="font-mono text-[9px] md:text-[10px] tracking-wide text-text-secondary group-hover:text-text-primary transition-colors duration-200">
+                                                            {skill}
+                                                        </span>
+                                                    </ItemWrapper>
+                                                );
+                                            })}
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>

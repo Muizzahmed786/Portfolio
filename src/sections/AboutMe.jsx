@@ -83,12 +83,12 @@ const AboutMe = () => {
                                 
                                 <div className="flex-1 flex flex-col gap-4 md:gap-6">
                                     <a href={personal.github} target="_blank" rel="noopener noreferrer" className="flex-1 block">
-                                        <BentoCard className="h-full flex items-center justify-center hover:text-accent transition-colors">
+                                        <BentoCard className="h-full flex items-center justify-center hover:text-accent transition-colors" interactive={true}>
                                             <FaGithub size={24} />
                                         </BentoCard>
                                     </a>
                                     <a href={personal.linkedin} target="_blank" rel="noopener noreferrer" className="flex-1 block">
-                                        <BentoCard className="h-full flex items-center justify-center hover:text-accent transition-colors">
+                                        <BentoCard className="h-full flex items-center justify-center hover:text-accent transition-colors" interactive={true}>
                                             <FaLinkedinIn size={24} />
                                         </BentoCard>
                                     </a>

@@ -111,6 +111,7 @@ export const projects = [
       "Graph-based MongoDB schema with distinct Concept & Connection collections, preventing cascading consistency issues on deletion.",
       "Four-layer REST API (Service → Controller → Route → Server) with real-time graph sync and context-based UI notifications.",
     ],
+    image: "/images/conceptmap.jpg",
     link: "https://concept-map-ten.vercel.app/",
     github: "https://github.com/Muizzahmed786/ConceptMap", // add if public
   },
@@ -123,6 +124,7 @@ export const projects = [
       "Integrated backend REST APIs for user registration, team management, and form validation.",
       "Built a responsive navbar and footer used consistently across all pages and devices.",
     ],
+    image: "/images/aurora.jpg",
     link: "https://github.com/ISTE-26/Aurora-26/",
     github: "https://github.com/ISTE-26/Aurora-26/",
   },
@@ -136,6 +138,7 @@ export const projects = [
       "An interactive Vite/React frontend utilizing React Flow and Recharts to render complex architectural maps, interactive timelines, and visual development stories.",
       "Integrated the Gemini AI API to provide intelligent, automated analysis of historical codebase evolution and architectural hotspots."
     ],
+    image: "/images/gitcompass.jpg",
     link: "",
     github: "https://github.com/Muizzahmed786/GitCompass",
   },
