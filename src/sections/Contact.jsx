@@ -1,71 +1,101 @@
 import React from "react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
 import { personal } from "../data/portfolio.js";
 import Reveal from "../components/Reveal.jsx";
-import SoftAurora from "../animations/SoftAurora.jsx";
+import BentoGrid from '../components/BentoGrid.jsx';
+import BentoCard from '../components/BentoCard.jsx';
 
 const Contact = () => {
     return (
-        <section id="contact" className="relative min-h-screen z-0 scroll-mt-5 bg-bg overflow-hidden flex items-center">
-            {/* Background Animation Layer */}
-            <div className="absolute inset-0 pointer-events-none z-0 opacity-20">
-                <SoftAurora
-                    speed={0.25}
-                    scale={1.4}
-                    brightness={0.7}
-                    color1="#f5c518"
-                    color2="#806000"
-                    enableMouseInteraction={true}
-                    mouseInfluence={0.12}
-                />
-            </div>
-
-            <div className="relative z-10 text-text-primary w-full max-w-275 mx-auto px-6 md:px-12 py-16 flex flex-col justify-center">
+        <section id="contact" className="relative z-0 scroll-mt-5 bg-transparent overflow-hidden py-16 pb-32">
+            <div className="relative z-10 w-full max-w-[1100px] mx-auto px-6 md:px-12">
             
-            {/* Section Header */}
-            <Reveal className="mb-16">
+            <Reveal className="mb-10">
                 <span className="section-eyebrow">
                     contact
                 </span>
-                <h2 className="section-heading mt-4">
-                    Get In Touch
+                <h2 className="editorial-heading text-4xl md:text-5xl mt-2 text-text-primary">
+                    LET'S CONNECT
                 </h2>
             </Reveal>
 
-            {/* Dossier Terminal */}
             <Reveal delay={0.15}>
-                <div className="max-w-3xl mx-auto w-full p-8 border border-border bg-surface rounded-sm relative overflow-hidden">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {/* Diagnostic Info */}
-                        <div className="space-y-6">
-                            {/* <p className="text-sm text-text-secondary leading-relaxed font-light font-body">
-                                Transmissions received automatically. If you have inquiries regarding consulting, systems design, or full-stack integrations, launch the secure client below.
-                            </p> */}
-
-                            <div className="space-y-4">
-                                <div className="flex items-center gap-3 text-text-secondary font-mono text-xs">
-                                    <MapPin size={14} className="text-accent" />
-                                    <span>{personal.location}</span>
-                                </div>
-                                <div className="flex items-center gap-3 text-text-secondary font-mono text-xs">
-                                    <Phone size={14} className="text-accent" />
-                                    <span>{personal.phone}</span>
-                                </div>
-                            </div>
+                <BentoGrid>
+                    {/* Primary CTA Card */}
+                    <BentoCard className="col-span-1 md:col-span-12 lg:col-span-8 flex flex-col justify-between min-h-[300px]" featured={true}>
+                        <div className="space-y-4 max-w-lg">
+                            <h3 className="editorial-heading text-5xl md:text-6xl text-text-primary">
+                                START A<br/>CONVERSATION.
+                            </h3>
+                            <p className="text-sm md:text-base text-text-secondary font-body font-light">
+                                Available for opportunities, system design discussions, or just to say hi. My inbox is always open.
+                            </p>
                         </div>
-
-                        {/* CTA Actions */}
-                        <div className="flex flex-col justify-center items-center gap-4 border-t md:border-t-0 md:border-l border-border pt-6 md:pt-0 md:pl-8">
+                        
+                        <div className="pt-8 mt-auto">
                             <a 
                                 href={`mailto:${personal.email}`}
-                                className="w-full flex items-center justify-center gap-2.5 px-6 py-4 border border-border bg-bg hover:bg-accent-muted text-text-primary hover:text-accent font-display text-xs uppercase tracking-widest rounded-sm transition-all duration-200 cursor-pointer"
+                                className="inline-flex items-center gap-3 px-8 py-4 border border-border bg-bg hover:bg-accent-muted text-text-primary hover:text-accent font-display text-sm uppercase tracking-widest rounded-sm transition-all duration-200 cursor-pointer"
                             >
-                                <Send size={14} />
-                                <span>Contact Me</span>
+                                <Send size={16} />
+                                <span>CONTACT ME</span>
                             </a>
                         </div>
-                    </div>
-                </div>
+                    </BentoCard>
+
+                    {/* Combined Info Card */}
+                    <BentoCard className="col-span-1 md:col-span-12 lg:col-span-4 flex flex-col justify-between">
+                        <div className="space-y-8">
+                            <div className="space-y-6">
+                                <span className="section-eyebrow block">
+                                    // DIRECTORY
+                                </span>
+                                
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-4 text-text-primary font-mono text-xs">
+                                        <div className="p-2 border border-border bg-bg rounded-sm text-text-secondary">
+                                            <MapPin size={16} />
+                                        </div>
+                                        <span className="tracking-wide">{personal.location}</span>
+                                    </div>
+                                    <div className="flex items-center gap-4 text-text-primary font-mono text-xs">
+                                        <div className="p-2 border border-border bg-bg rounded-sm text-text-secondary">
+                                            <Phone size={16} />
+                                        </div>
+                                        <span className="tracking-wide">{personal.phone}</span>
+                                    </div>
+                                    <div className="flex items-center gap-4 text-text-primary font-mono text-xs">
+                                        <div className="p-2 border border-border bg-bg rounded-sm text-text-secondary">
+                                            <Mail size={16} />
+                                        </div>
+                                        <span className="tracking-wide">{personal.email}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Socials embedded within Info Card */}
+                            <div className="pt-6 border-t border-border flex gap-3">
+                                <a 
+                                    href={personal.github} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="p-3 border border-border bg-bg hover:bg-accent-muted text-text-secondary hover:text-accent rounded-sm transition-colors duration-200"
+                                >
+                                    <FaGithub size={18} />
+                                </a>
+                                <a 
+                                    href={personal.linkedin} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="p-3 border border-border bg-bg hover:bg-accent-muted text-text-secondary hover:text-accent rounded-sm transition-colors duration-200"
+                                >
+                                    <FaLinkedinIn size={18} />
+                                </a>
+                            </div>
+                        </div>
+                    </BentoCard>
+                </BentoGrid>
             </Reveal>
 
             </div>

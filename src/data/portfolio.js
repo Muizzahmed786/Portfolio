@@ -126,4 +126,47 @@ export const projects = [
     link: "https://github.com/ISTE-26/Aurora-26/",
     github: "https://github.com/ISTE-26/Aurora-26/",
   },
+  {
+    title: "GitCompass",
+    stack: ["React", "FastAPI", "Python", "Supabase", "React Flow", "D3.js"],
+    description:
+      "A full-stack analytical tool designed for developers to visualize and understand a repository's evolution by mining raw Git history.",
+    highlights: [
+      "A Python/FastAPI backend utilizing GitPython to efficiently extract and serve tenant-isolated Git metadata via Supabase.",
+      "An interactive Vite/React frontend utilizing React Flow and Recharts to render complex architectural maps, interactive timelines, and visual development stories.",
+      "Integrated the Gemini AI API to provide intelligent, automated analysis of historical codebase evolution and architectural hotspots."
+    ],
+    link: "",
+    github: "https://github.com/Muizzahmed786/GitCompass",
+  },
 ];
+
+export const techUrls = {
+  "Python": "https://docs.python.org/3/",
+  "Java": "https://docs.oracle.com/en/java/",
+  "C": "https://en.cppreference.com/w/c",
+  "C++": "https://cplusplus.com/doc/",
+  "SQL": "https://dev.mysql.com/doc/",
+  "JavaScript": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+  "React.js": "https://react.dev/",
+  "React": "https://react.dev/",
+  "Node.js": "https://nodejs.org/en/docs",
+  "Express.js": "https://expressjs.com/",
+  "MongoDB": "https://www.mongodb.com/docs/",
+  "HTML": "https://developer.mozilla.org/en-US/docs/Web/HTML",
+  "CSS": "https://developer.mozilla.org/en-US/docs/Web/CSS",
+  "Tailwind CSS": "https://tailwindcss.com/docs",
+  "Git": "https://git-scm.com/doc",
+  "Vercel": "https://vercel.com/docs",
+  "Render": "https://render.com/docs",
+  "Postman": "https://learning.postman.com/docs/introduction/",
+  "OpenCV": "https://docs.opencv.org/",
+  "Pandas": "https://pandas.pydata.org/docs/",
+  "NumPy": "https://numpy.org/doc/",
+  "Matplotlib": "https://matplotlib.org/stable/contents.html",
+  "FastAPI": "https://fastapi.tiangolo.com/",
+  "Supabase": "https://supabase.com/docs",
+  "React Flow": "https://reactflow.dev/docs",
+  "D3.js": "https://d3js.org/",
+  "REST API": "https://developer.mozilla.org/en-US/docs/Glossary/REST"
+};

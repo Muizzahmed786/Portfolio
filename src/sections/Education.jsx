@@ -1,128 +1,98 @@
 import React from "react";
-import { GraduationCap, School, Calendar, MapPin, Activity } from "lucide-react";
+import { GraduationCap, School, Calendar, MapPin } from "lucide-react";
 import { education } from "../data/portfolio.js";
 import Reveal from "../components/Reveal.jsx";
-import SoftAurora from "../animations/SoftAurora.jsx";
+import BentoCard from '../components/BentoCard.jsx';
 
 const Education = () => {
-    // Safely grabbing the college data for the horizontal timeline
     const collegeData = education.find(edu => edu.semesters);
+    const schoolData = education.find(edu => !edu.semesters);
 
     return (
-        <section id="education" className="relative min-h-screen z-0 scroll-mt-5 bg-bg overflow-hidden flex items-center">
-            {/* Background Animation Layer */}
-            <div className="absolute inset-0 pointer-events-none z-0 opacity-20">
-                <SoftAurora
-                    speed={0.3}
-                    scale={1.2}
-                    brightness={0.7}
-                    color1="#f5c518"
-                    color2="#d4af37"
-                    enableMouseInteraction={true}
-                    mouseInfluence={0.15}
-                />
-            </div>
-
-            <div className="relative z-10 text-text-primary w-full max-w-275 mx-auto px-6 md:px-12 py-16 flex flex-col justify-center">
+        <section id="education" className="relative z-0 scroll-mt-5 bg-transparent overflow-hidden py-16">
+            <div className="relative z-10 w-full max-w-[1100px] mx-auto px-6 md:px-12">
             
-            {/* Section Header */}
-            <Reveal className="mb-16">
+            <Reveal className="mb-10">
                 <span className="section-eyebrow">
-                    education
+                    background
                 </span>
-                <h2 className="section-heading mt-4">
-                    Education History
+                <h2 className="editorial-heading text-4xl md:text-5xl mt-2 text-text-primary">
+                    EDUCATION
                 </h2>
             </Reveal>
 
-            {/* Top Row: School & College side-by-side */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-                {education.map((item, index) => (
-                    <Reveal key={index} delay={index * 0.15}>
-                        <div className="p-6 border border-border bg-surface rounded-sm hover:border-accent/30 transition-all duration-300 group flex flex-col justify-between h-full">
-                            <div className="flex items-start gap-4">
-                                <div className="p-3 border border-border bg-bg text-text-secondary rounded-sm group-hover:text-accent group-hover:border-accent transition-colors duration-300">
-                                    {item.semesters ? <GraduationCap size={20} /> : <School size={20} />}
-                                </div>
+            <Reveal delay={0.15}>
+                <div className="flex flex-col lg:flex-row gap-6 w-full min-h-[220px]">
+                    {/* College Bento Card (Primary) */}
+                    {collegeData && (
+                        <BentoCard 
+                            className="flex-1 hover:lg:flex-[1.75]" 
+                            featured={true}
+                        >
+                            <div className="flex flex-col h-full justify-between space-y-8">
                                 
-                                <div className="space-y-2 flex-1">
-                                    <h3 className="text-lg font-bold font-display text-text-primary tracking-tight transition-colors duration-300">
-                                        {item.institution}
-                                    </h3>
-                                    <p className="text-sm text-text-secondary leading-snug">
-                                        {item.degree}
-                                    </p>
-
-                                    {/* Meta Info */}
-                                    <div className="flex flex-wrap gap-x-6 gap-y-2 pt-2 text-xs text-text-muted font-mono">
-                                        <span className="flex items-center gap-1.5 text-amber-50">
-                                            <Calendar size={12} className="text-text-secondary" />
-                                            {item.duration}
-                                        </span>
-                                        <span className="flex items-center gap-1.5 text-amber-50">
-                                            <MapPin size={12} className="text-text-secondary" />
-                                            {item.location}
-                                        </span>
-                                    </div>
-
-                                    {/* Score Badges */}
-                                    <div className="pt-4">
-                                        {item.cgpa ? (
-                                            <span className="inline-flex items-center px-2.5 py-1 border border-border bg-bg text-accent font-mono text-xs rounded-sm">
-                                                CGPA: {item.cgpa}
+                                <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6">
+                                    <div className="space-y-4 flex-1">
+                                        <div className="p-3 inline-block border border-border bg-bg text-accent rounded-sm">
+                                            <GraduationCap size={24} />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-2xl font-bold font-display text-text-primary">
+                                                {collegeData.institution}
+                                            </h3>
+                                            <p className="text-base text-text-secondary mt-1">
+                                                {collegeData.degree}
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-text-muted font-mono">
+                                            <span className="flex items-center gap-1.5">
+                                                <Calendar size={14} className="text-text-secondary" />
+                                                {collegeData.duration}
                                             </span>
-                                        ) : (
-                                            <span className="inline-flex items-center px-2.5 py-1 border border-border bg-bg text-text-secondary font-mono text-xs rounded-sm">
-                                                Percentage: {item.percentage}%
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </Reveal>
-                ))}
-            </div>
-
-            {/* Bottom Row: Horizontal Semester Timeline */}
-            {collegeData && collegeData.semesters && (
-                <Reveal delay={0.3}>
-                    <div className="p-8 border border-border bg-surface rounded-sm overflow-x-auto custom-scrollbar">
-                        <h3 className="text-xs font-bold font-mono uppercase tracking-wider mb-12 text-text-secondary">
-                            // semester-wise performance
-                        </h3>
-
-                        {/* Horizontal Track */}
-                        <div className="relative min-w-150 pt-8 pb-4">
-                            {/* The Horizontal Line spanning the grid width */}
-                            <div className="absolute top-0 left-0 right-0 h-px bg-border"></div>
-
-                            {/* Flex Container Grid representing milestones */}
-                            <div className="flex justify-between items-start relative">
-                                {collegeData.semesters.map((sem, sIdx) => (
-                                    <div key={sIdx} className="flex flex-col items-center flex-1 group relative">
-                                        
-                                        {/* Timeline Node Point (Positioned right on top of the line) */}
-                                        <div className="absolute -top-1.25 w-2.5 h-2.5 rounded-full bg-accent border border-bg group-hover:scale-125 transition-transform duration-200 z-10"></div>
-                                        
-                                        {/* Semester Entry Box */}
-                                        <div className="text-center space-y-1.5 p-3 border border-border bg-bg hover:border-accent transition-all duration-300 w-36 rounded-sm">
-                                            <span className="block text-[10px] font-mono uppercase tracking-wider text-text-secondary">
-                                                {sem.semester}
-                                            </span>
-                                            <span className="inline-block font-mono text-xs text-accent font-semibold">
-                                                SGPA: {sem.sgpa.toFixed(2)}
+                                            <span className="flex items-center gap-1.5">
+                                                <MapPin size={14} className="text-text-secondary" />
+                                                {collegeData.location}
                                             </span>
                                         </div>
-
                                     </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </Reveal>
-            )}
+                                </div>
 
+                            </div>
+                        </BentoCard>
+                    )}
+
+                    {/* High School Bento Card */}
+                    {schoolData && (
+                        <BentoCard 
+                            className="flex-1 hover:lg:flex-[1.75] flex flex-col justify-between"
+                        >
+                            <div className="space-y-6">
+                                <div className="p-3 inline-block border border-border bg-bg text-text-secondary rounded-sm">
+                                    <School size={24} />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold font-display text-text-primary">
+                                        {schoolData.institution}
+                                    </h3>
+                                    <p className="text-sm text-text-secondary mt-1">
+                                        {schoolData.degree}
+                                    </p>
+                                </div>
+                                <div className="flex flex-col gap-2 text-xs text-text-muted font-mono">
+                                    <span className="flex items-center gap-2">
+                                        <Calendar size={14} className="text-text-secondary" />
+                                        {schoolData.duration}
+                                    </span>
+                                    <span className="flex items-center gap-2">
+                                        <MapPin size={14} className="text-text-secondary" />
+                                        {schoolData.location}
+                                    </span>
+                                </div>
+                            </div>
+                        </BentoCard>
+                    )}
+                </div>
+            </Reveal>
             </div>
         </section>
     );

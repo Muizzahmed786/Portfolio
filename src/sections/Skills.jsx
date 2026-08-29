@@ -1,7 +1,8 @@
 import React from "react";
-import { skills } from "../data/portfolio";
+import { skills, techUrls } from "../data/portfolio";
 import Reveal from "../components/Reveal.jsx";
-import SoftAurora from "../animations/SoftAurora.jsx";
+import BentoGrid from '../components/BentoGrid.jsx';
+import BentoCard from '../components/BentoCard.jsx';
 
 import { 
     SiPython, SiOpenjdk, SiC, SiCplusplus, SiMysql, SiJavascript,
@@ -12,7 +13,6 @@ import {
 
 import { FaHtml5, FaCss3Alt, FaChartLine } from "react-icons/fa";
 
-// Map each skill to its icon component AND its official brand HEX color
 const iconMap = {
     "Python": { icon: <SiPython />, color: "#3776AB" },
     "Java": { icon: <SiOpenjdk />, color: "#007396" },
@@ -38,70 +38,69 @@ const iconMap = {
 };
 
 const Skills = () => {
-    // Filter out Coursework from the array
     const allSkills = skills.filter(category => category.category !== "Coursework").flatMap(category => category.items);
-
     const tripleSkills = [...allSkills, ...allSkills, ...allSkills];
 
     return (
-        <section id="skills" className="relative min-h-screen z-0 scroll-mt-5 bg-bg overflow-hidden flex items-center">
-            {/* Background Animation Layer */}
-            <div className="absolute inset-0 pointer-events-none z-0 opacity-20">
-                <SoftAurora
-                    speed={0.3}
-                    scale={1.2}
-                    brightness={0.7}
-                    color1="#f5c518"
-                    color2="#ff8c00"
-                    enableMouseInteraction={true}
-                    mouseInfluence={0.15}
-                />
-            </div>
-
-            <div className="relative z-10 text-text-primary w-full max-w-275 mx-auto px-6 md:px-12 py-16 flex flex-col justify-center">
+        <section id="skills" className="relative z-0 scroll-mt-5 bg-transparent overflow-hidden py-16">
+            <div className="relative z-10 w-full max-w-[1100px] mx-auto px-6 md:px-12">
              
-             {/* Section Header */}
-             <Reveal className="mb-16">
-                <span className="section-eyebrow">
-                    capabilities
-                </span>
-                <h2 className="section-heading mt-4">
-                    Technical Skills
-                </h2>
-            </Reveal>
-
-            {/* Carousel */}
-            <div className="relative w-full flex overflow-x-hidden border-y border-border py-12 bg-surface/30 mask-gradient">
-                <div className="flex space-x-8 whitespace-nowrap animate-marquee">
-                    {tripleSkills.map((skill, index) => {
-                        const skillData = iconMap[skill];
-                        const brandColor = skillData?.color || "var(--color-accent)";
+             <Reveal delay={0.15}>
+                 <BentoGrid>
+                    {/* Skills Marquee Bento Block */}
+                    <BentoCard className="col-span-1 md:col-span-12 lg:col-span-12 flex flex-col justify-center" noPadding={true}>
                         
-                        return (
-                            <div 
-                                key={`${skill}-${index}`}
-                                className="inline-flex items-center gap-3 px-8 py-4 rounded-md border bg-surface text-text-primary transition-all duration-200 cursor-default uppercase shadow-sm hover:-translate-y-0.5 group"
-                                // Directly assigning permanent styles via inline style attributes
-                                style={{ 
-                                    borderColor: `${brandColor}20`, // Appends "20" for 12% opacity subtle borders
-                                }}
-                            >
-                                {skillData && (
-                                    <span 
-                                        className="text-xl transition-transform duration-200 group-hover:scale-110"
-                                        style={{ color: brandColor }} // Permanent brand coloring
-                                    >
-                                        {skillData.icon}
-                                    </span>
-                                )}
-                                <span className="font-mono text-sm tracking-wide text-text-secondary group-hover:text-text-primary transition-colors duration-200">
-                                    {skill}
+                        <div className="flex flex-col md:flex-row md:items-center">
+                            {/* Label Area */}
+                            <div className="p-6 md:p-8 md:border-r border-border border-b md:border-b-0 min-w-[200px] flex flex-col justify-center z-10 bg-surface">
+                                <span className="section-eyebrow mb-2">
+                                    capabilities
                                 </span>
+                                <h2 className="editorial-heading text-3xl md:text-4xl text-text-primary">
+                                    STACK
+                                </h2>
                             </div>
-                        );
-                    })}
-                </div>
-            </div>
+
+                            {/* Marquee Area */}
+                            <div className="relative flex-1 flex overflow-hidden py-6 bg-surface/30 mask-gradient items-center min-h-[120px]">
+                                <div className="flex space-x-6 whitespace-nowrap animate-marquee px-6">
+                                    {tripleSkills.map((skill, index) => {
+                                        const skillData = iconMap[skill];
+                                        const brandColor = skillData?.color || "var(--color-accent)";
+                                        const url = techUrls[skill] || "#";
+                                        
+                                        const ItemWrapper = url !== "#" ? 'a' : 'div';
+                                        
+                                        return (
+                                            <ItemWrapper 
+                                                key={`${skill}-${index}`}
+                                                href={url !== "#" ? url : undefined}
+                                                target={url !== "#" ? "_blank" : undefined}
+                                                rel={url !== "#" ? "noopener noreferrer" : undefined}
+                                                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-sm border bg-surface text-text-primary transition-all duration-200 cursor-pointer uppercase shadow-sm hover:-translate-y-0.5 group"
+                                                style={{ borderColor: `${brandColor}20` }}
+                                            >
+                                                {skillData && (
+                                                    <span 
+                                                        className="text-lg transition-transform duration-200 group-hover:scale-110"
+                                                        style={{ color: brandColor }}
+                                                    >
+                                                        {skillData.icon}
+                                                    </span>
+                                                )}
+                                                <span className="font-mono text-xs tracking-wide text-text-secondary group-hover:text-text-primary transition-colors duration-200">
+                                                    {skill}
+                                                </span>
+                                            </ItemWrapper>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+
+                    </BentoCard>
+                 </BentoGrid>
+            </Reveal>
             
             </div>
         </section>
