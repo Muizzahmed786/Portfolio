@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Send } from 'lucide-react'; 
+import { MapPin, Send } from 'lucide-react';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa6';
 import LightRays from '../animations/LightRays.jsx';
 import { personal } from '../data/portfolio.js';
@@ -14,9 +14,9 @@ const AboutMe = () => {
                 <Reveal>
                     <BentoGrid>
                         {/* HERO CARD (Primary) */}
-                        <BentoCard 
-                            className="col-span-1 md:col-span-6 lg:col-span-8 min-h-[400px] justify-center" 
-                            featured={true} 
+                        <BentoCard
+                            className="col-span-1 md:col-span-6 lg:col-span-8 min-h-[400px] justify-center"
+                            featured={true}
                             noPadding={true}
                         >
                             {/* Subdued LightRays inside the card */}
@@ -40,11 +40,11 @@ const AboutMe = () => {
 
                             <div className="relative z-10 p-8 md:p-12 h-full flex flex-col justify-center space-y-6">
                                 <span className="section-eyebrow">// HELLO, I'M</span>
-                                
+
                                 <h1 className="hero-name editorial-heading text-6xl md:text-8xl lg:text-[90px] xl:text-[100px] text-text-primary uppercase mb-2 leading-none">
                                     MUIZZ<br />AHMED
                                 </h1>
-                                
+
                                 <div className="space-y-2 pt-2">
                                     <h2 className="text-xl md:text-2xl font-display font-bold text-text-primary">
                                         {personal.role}
@@ -58,14 +58,14 @@ const AboutMe = () => {
 
                         {/* UTILITY CARDS COLUMN */}
                         <div className="col-span-1 md:col-span-6 lg:col-span-4 flex flex-col gap-4 md:gap-6">
-                            
+
                             {/* CURRENT STATUS */}
                             <BentoCard className="flex-1 flex flex-col justify-center">
-                                <span className="section-eyebrow mb-2">// STATUS</span>
+                                <span className="section-eyebrow mb-2">STATUS</span>
                                 <div className="flex items-center gap-3">
                                     <span className="relative flex h-3 w-3">
-                                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                                      <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
                                     </span>
                                     <span className="text-lg font-display font-bold text-text-primary">
                                         Building systems 🚀
@@ -80,7 +80,7 @@ const AboutMe = () => {
                                     <span className="text-xs font-mono text-text-secondary uppercase tracking-widest">Location</span>
                                     <span className="text-sm font-display font-bold text-text-primary mt-1">India</span>
                                 </BentoCard>
-                                
+
                                 <div className="flex-1 flex flex-col gap-4 md:gap-6">
                                     <a href={personal.github} target="_blank" rel="noopener noreferrer" className="flex-1 block">
                                         <BentoCard className="h-full flex items-center justify-center hover:text-accent transition-colors" interactive={true}>

@@ -4,9 +4,11 @@ import { projects } from '../../data/portfolio.js';
 const RAIL_TAB_HEIGHT = 120; // px — h-[120px]
 const RAIL_TAB_GAP    = 8;   // px gap between tabs
 
-const NavigationRail = ({ activeProjectId, onRailClick }) => {
+const NavigationRail = ({ activeProjectId, onRailClick, state = 'detail' }) => {
     const total = projects.length;
     const stackHeight = total * RAIL_TAB_HEIGHT + (total - 1) * RAIL_TAB_GAP;
+
+    const isVisible = state === 'detail';
 
     return (
         <div
@@ -27,16 +29,18 @@ const NavigationRail = ({ activeProjectId, onRailClick }) => {
                         <button
                             key={project.id}
                             onClick={() => !isActive && onRailClick(project.id)}
-                            disabled={isActive}
+                            disabled={isActive || !isVisible}
                             aria-label={`Switch to ${project.title}`}
                             aria-pressed={isActive}
                             className={[
                                 'absolute right-0 flex items-center justify-center',
                                 'focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50',
-                                'transition-all duration-300 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]',
-                                isActive
-                                    ? 'translate-x-0 z-20 cursor-default'
-                                    : 'translate-x-10 z-10 opacity-55 hover:opacity-85 hover:translate-x-6 cursor-pointer',
+                                'transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]',
+                                !isVisible
+                                    ? 'translate-x-full opacity-0'
+                                    : isActive
+                                        ? 'translate-x-0 z-20 cursor-default'
+                                        : 'translate-x-10 z-10 opacity-55 hover:opacity-85 hover:translate-x-6 cursor-pointer',
                             ].join(' ')}
                             style={{
                                 top,

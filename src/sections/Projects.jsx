@@ -5,7 +5,7 @@ import { projects } from '../data/portfolio.js';
 
 const Projects = () => {
     // ── State machine ──────────────────────────────────────────────────────────
-    // 'idle' | 'opening' | 'detail' | 'switching' | 'closing'
+    // 'idle' | 'opening' | 'detail' | 'closing' | 'switching-out' | 'archive-transition'
     const [state, setState]               = useState('idle');
     const [activeProjectId, setActiveProjectId] = useState(null);
     const [nextProjectId, setNextProjectId]     = useState(null);
@@ -21,7 +21,7 @@ const Projects = () => {
 
     // ── Scrollbar-width-aware body scroll lock ─────────────────────────────────
     useEffect(() => {
-        if (state === 'idle') {
+        if (state === 'idle' || state === 'archive-transition') {
             document.body.style.overflow     = '';
             document.body.style.paddingRight = '';
             return;
@@ -41,7 +41,7 @@ const Projects = () => {
     // ── Keyboard: Escape closes ────────────────────────────────────────────────
     useEffect(() => {
         const handleKey = (e) => {
-            if (e.key === 'Escape' && (stateRef.current === 'detail' || stateRef.current === 'switching')) {
+            if (e.key === 'Escape' && stateRef.current === 'detail') {
                 handleClose();
             }
         };
@@ -49,6 +49,26 @@ const Projects = () => {
         return () => window.removeEventListener('keydown', handleKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    // ── Archive Transition Automation ──────────────────────────────────────────
+    useEffect(() => {
+        if (state === 'archive-transition') {
+            const timer = setTimeout(() => {
+                const nextId = nextProjectIdRef.current;
+                if (!nextId) return;
+
+                const el = document.querySelector(`[data-tab-id="${nextId}"]`);
+                let rect = null;
+                if (el) rect = el.getBoundingClientRect();
+                
+                setActiveProjectId(nextId);
+                setStartRect(rect);
+                setNextProjectId(null);
+                setState('opening');
+            }, 150); // Reduced delay so archive is briefly recognized but doesn't feel sluggish
+            return () => clearTimeout(timer);
+        }
+    }, [state]);
 
     // ── Handlers ───────────────────────────────────────────────────────────────
     const handleTabClick = useCallback((projectId, rect) => {
@@ -63,7 +83,7 @@ const Projects = () => {
         // Only switch if fully settled in detail view
         if (stateRef.current !== 'detail') return;
         setNextProjectId(projectId);
-        setState('switching');
+        setState('switching-out');
     }, []);
 
     const handleClose = useCallback(() => {
@@ -71,8 +91,6 @@ const Projects = () => {
         setState('closing');
     }, []);
 
-    // This callback is stable and uses the ref to read nextProjectId at call time,
-    // avoiding stale closure problems when the child calls it after a wipe completes.
     const handleStateChange = useCallback((newState) => {
         setState(newState);
 
@@ -82,32 +100,29 @@ const Projects = () => {
                 setStartRect(null);
                 setNextProjectId(null);
             }, 50);
-        } else if (newState === 'detail') {
-            // After a wipe: promote nextProject to active using the ref (not stale closure)
-            const currentNext = nextProjectIdRef.current;
-            if (currentNext) {
-                setActiveProjectId(currentNext);
-                setNextProjectId(null);
-            }
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); // intentionally stable — reads live values via refs
+    }, []);
 
     // ── Derived ────────────────────────────────────────────────────────────────
     const activeProject = projects.find(p => p.id === activeProjectId) ?? null;
-    const nextProject   = projects.find(p => p.id === nextProjectId)   ?? null;
+    
+    // ProjectDetail is mounted if we are not idle, and not in the middle of a pure archive transition where we want nothing covering the tabs
+    // Wait, during 'archive-transition', if ProjectDetail unmounts, the tab is already opacity:1 so there's no gap.
+    // If we unmount it, the DOM is cleaner. Let's unmount during archive-transition.
+    const isProjectDetailMounted = state !== 'idle' && state !== 'archive-transition' && activeProject;
 
     return (
         <>
             <TabStrip
                 onTabClick={handleTabClick}
-                isLocked={state !== 'idle'}
+                isLocked={state !== 'idle' && state !== 'archive-transition'}
+                activeProjectId={activeProjectId}
+                state={state}
             />
 
-            {state !== 'idle' && activeProject && (
+            {isProjectDetailMounted && (
                 <ProjectDetail
                     project={activeProject}
-                    nextProject={nextProject}
                     state={state}
                     startRect={startRect}
                     onStateChange={handleStateChange}

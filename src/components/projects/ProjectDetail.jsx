@@ -1,23 +1,18 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ExternalLink, ArrowLeft } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa6';
 import NavigationRail from './NavigationRail.jsx';
-import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 
 // ─── Shared Animation Constants ───────────────────────────────────────────────
 const prefersReducedMotion = () =>
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const FLIP_DURATION_MS   = 520;
-const FLIP_EASING        = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'; // ease-out-quad — fast start, smooth finish
-const WIPE_DURATION_S    = 0.58;
-const WIPE_EASE          = [0.25, 0.46, 0.45, 0.94];
-const CONTENT_DELAY_S    = 0.18; // seconds after shape starts before content fades in
+const FLIP_EASING = [0.25, 0.46, 0.45, 0.94]; // ease-out-quad
 
 const ProjectDetail = ({
     project,
-    nextProject,
     state,
     startRect,
     onStateChange,
@@ -25,212 +20,182 @@ const ProjectDetail = ({
     onRailClick
 }) => {
     const containerRef = useRef(null);
-    const [displayProject, setDisplayProject] = useState(project);
-    const progress = useMotionValue(0);
-    const [isWiping, setIsWiping] = useState(false);
+    
+    // Animation controllers
+    const folderControls = useAnimation();
+    const titleControls = useAnimation();
+    const contentControls = useAnimation();
 
-    // ── Sync displayProject when the project prop changes (on switch complete) ──
+    // ── Physical Opening Sequence ──────────────────────────────────────────────
     useEffect(() => {
-        if (state === 'detail' && project.id !== displayProject.id) {
-            setDisplayProject(project);
-        }
-    }, [project, state, displayProject.id]);
+        if (state !== 'opening' || !startRect) return;
 
-    // ── FLIP: Opening ──────────────────────────────────────────────────────────
-    useEffect(() => {
-        if (state !== 'opening' || !containerRef.current || !startRect) return;
-
-        const el = containerRef.current;
         const reduced = prefersReducedMotion();
-        const duration = reduced ? 1 : FLIP_DURATION_MS;
-        const easing   = reduced ? 'linear' : FLIP_EASING;
 
-        // Phase 1: Snap to captured rect (no transition)
-        el.style.transition = 'none';
-        el.style.position    = 'fixed';
-        el.style.top         = `${startRect.top}px`;
-        el.style.left        = `${startRect.left}px`;
-        el.style.width       = `${startRect.width}px`;
-        el.style.height      = `${startRect.height}px`;
-        el.style.borderRadius = '6px';
-        el.style.transform   = `rotate(-18deg) scale(0.88)`;
-        el.style.transformOrigin = 'center center';
-
-        // Force a style recalc before starting the transition
-        void el.getBoundingClientRect();
-
-        // Phase 2: Animate to fullscreen on next frame
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                el.style.transition = [
-                    `top ${duration}ms ${easing}`,
-                    `left ${duration}ms ${easing}`,
-                    `width ${duration}ms ${easing}`,
-                    `height ${duration}ms ${easing}`,
-                    `transform ${duration}ms ${easing}`,
-                    `border-radius ${duration}ms ${easing}`,
-                ].join(', ');
-
-                el.style.top          = '0px';
-                el.style.left         = '0px';
-                el.style.width        = '100dvw';
-                el.style.height       = '100dvh';
-                el.style.transform    = 'rotate(0deg) scale(1)';
-                el.style.borderRadius = '0px';
-
-                const t = setTimeout(() => onStateChange('detail'), duration + 20);
-                return () => clearTimeout(t);
+        const sequence = async () => {
+            // 1. Instantly snap to the exact tab geometry and shape
+            await folderControls.set({
+                top: startRect.top,
+                left: startRect.left,
+                width: startRect.width,
+                height: startRect.height,
+                clipPath: 'polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%)',
+                rotate: 0,
+                borderRadius: '0px',
+                scale: 1,
             });
-        });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state]);
+            await titleControls.set({ opacity: 0, y: -20 });
+            await contentControls.set({ opacity: 0, y: 30 });
 
-    // ── FLIP: Closing ──────────────────────────────────────────────────────────
-    useEffect(() => {
-        if (state !== 'closing' || !containerRef.current || !startRect) return;
-
-        const el = containerRef.current;
-        const reduced = prefersReducedMotion();
-        const duration = reduced ? 1 : FLIP_DURATION_MS;
-        const easing   = reduced ? 'linear' : FLIP_EASING;
-
-        // Clear any lingering declarative fullscreen styles then animate
-        el.style.transition = [
-            `top ${duration}ms ${easing}`,
-            `left ${duration}ms ${easing}`,
-            `width ${duration}ms ${easing}`,
-            `height ${duration}ms ${easing}`,
-            `transform ${duration}ms ${easing}`,
-            `border-radius ${duration}ms ${easing}`,
-        ].join(', ');
-
-        el.style.top          = `${startRect.top}px`;
-        el.style.left         = `${startRect.left}px`;
-        el.style.width        = `${startRect.width}px`;
-        el.style.height       = `${startRect.height}px`;
-        el.style.transform    = 'rotate(-18deg) scale(0.88)';
-        el.style.borderRadius = '6px';
-
-        const t = setTimeout(() => onStateChange('idle'), duration + 20);
-        return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state]);
-
-    // ── Force fullscreen styles when reaching 'detail' or 'switching' state ───
-    useEffect(() => {
-        if ((state === 'detail' || state === 'switching') && containerRef.current) {
-            const el = containerRef.current;
-            el.style.transition   = 'none';
-            el.style.top          = '0px';
-            el.style.left         = '0px';
-            el.style.width        = '100dvw';
-            el.style.height       = '100dvh';
-            el.style.transform    = 'none';
-            el.style.borderRadius = '0px';
-        }
-    }, [state]);
-
-    // ── Wipe: Switching ────────────────────────────────────────────────────────
-    const swappedRef = useRef(false);
-
-    useEffect(() => {
-        if (state !== 'switching' || !nextProject) return;
-
-        swappedRef.current = false;
-        setIsWiping(true);
-        progress.set(0);
-
-        const controls = animate(progress, 1, {
-            duration: WIPE_DURATION_S,
-            ease: WIPE_EASE,
-            onUpdate: (v) => {
-                if (v >= 0.5 && !swappedRef.current) {
-                    swappedRef.current = true;
-                    setDisplayProject(nextProject);
-                }
-            },
-            onComplete: () => {
-                setIsWiping(false);
+            if (reduced) {
+                // Instantly move to detail state
+                folderControls.set({
+                    top: 0, left: 0, width: '100dvw', height: '100dvh',
+                    clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+                    rotate: 0, borderRadius: '0px',
+                });
+                titleControls.set({ opacity: 1, y: 0 });
+                contentControls.set({ opacity: 1, y: 0 });
                 onStateChange('detail');
-            },
-        });
+                return;
+            }
 
-        return controls.stop;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state, nextProject]);
+            // 2. Physical lift & rotate (pre-open state)
+            const isMobile = window.innerWidth < 768;
+            folderControls.start({
+                top: startRect.top - (isMobile ? 50 : 120), // Lift higher up on desktop, subtle on mobile
+                left: startRect.left - (isMobile ? 10 : 40), // Move slightly to the side to create an arc
+                rotate: isMobile ? -4 : -8, // more subtle rotation on mobile to fit screen
+                clipPath: 'polygon(4% 0%, 96% 0%, 100% 100%, 0% 100%)',
+                transition: { duration: 0.35, ease: [0.33, 1, 0.68, 1] } // Custom easing for lift
+            });
 
-    // ── Wipe clip-path — drives both the background sweep and headline mask ───
-    // 0 → 0.5: trapezoid sweeps from right edge to fully covering the viewport
-    // 0.5 → 1: trapezoid clears off to the left, revealing new content
-    const SLANT = '12%'; // how much the leading edge is angled
+            // 3. Editorial title begins revealing
+            setTimeout(() => {
+                titleControls.start({
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.6, ease: FLIP_EASING }
+                });
+            }, 150);
 
-    const wipeClipPath = useTransform(progress, [0, 0.5, 1], [
-        `polygon(calc(100% + 60px) 0, 100% 0, 100% 100%, calc(100% + 60px) 100%)`,
-        `polygon(calc(100% + 60px) 0, -${SLANT} 0, calc(-${SLANT} - 60px) 100%, calc(100% + 60px) 100%)`,
-        `polygon(-${SLANT} 0, -${SLANT} 0, calc(-${SLANT} - 60px) 100%, calc(-${SLANT} - 60px) 100%)`,
-    ]);
+            // 4. Folder rises, scales, and straightens into position
+            setTimeout(() => {
+                folderControls.start({
+                    top: 0,
+                    left: 0,
+                    width: '100dvw',
+                    height: '100dvh',
+                    rotate: 0,
+                    clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+                    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } // Deceleration ease
+                }).then(() => {
+                    onStateChange('detail');
+                });
+            }, 300);
 
-    // Headline unmask: runs in the second half (0.5 → 1), matching the wipe's reveal
-    const headlineClipPath = useTransform(progress, [0.5, 1], [
-        `polygon(calc(100% + 60px) 0, 100% 0, 100% 100%, calc(100% + 60px) 100%)`,
-        `polygon(calc(100% + 60px) 0, -${SLANT} 0, calc(-${SLANT} - 60px) 100%, calc(100% + 60px) 100%)`,
-    ]);
+            // 5. Content card fades in and settles just before folder finishes moving
+            setTimeout(() => {
+                contentControls.start({
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.5, ease: FLIP_EASING }
+                });
+            }, 600);
+        };
 
-    // ── Content entrance — reactive via motion values ──────────────────────────
-    const contentOpacity = useMotionValue(0);
-    const contentY = useMotionValue(16);
+        sequence();
+    }, [state, startRect, folderControls, titleControls, contentControls, onStateChange]);
 
+    // ── Physical Closing Sequence ──────────────────────────────────────────────
+    useEffect(() => {
+        if ((state !== 'closing' && state !== 'switching-out') || !startRect) return;
+
+        const reduced = prefersReducedMotion();
+
+        const sequence = async () => {
+            if (reduced) {
+                folderControls.set({
+                    top: startRect.top, left: startRect.left,
+                    width: startRect.width, height: startRect.height,
+                    clipPath: 'polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%)',
+                    rotate: 0,
+                });
+                onStateChange(state === 'closing' ? 'idle' : 'archive-transition');
+                return;
+            }
+
+            // 1. Content settles away
+            contentControls.start({
+                opacity: 0,
+                y: 30,
+                transition: { duration: 0.3, ease: 'easeOut' }
+            });
+            titleControls.start({
+                opacity: 0,
+                y: -20,
+                transition: { duration: 0.4, ease: 'easeOut' }
+            });
+
+            // 2. Folder shrinks and rotates back
+            setTimeout(() => {
+                const isMobile = window.innerWidth < 768;
+                folderControls.start({
+                    top: startRect.top - (isMobile ? 50 : 120),
+                    left: startRect.left - (isMobile ? 10 : 40),
+                    width: startRect.width,
+                    height: startRect.height,
+                    rotate: isMobile ? -4 : -8,
+                    clipPath: 'polygon(6% 0%, 94% 0%, 100% 100%, 0% 100%)',
+                    transition: { duration: 0.6, ease: FLIP_EASING }
+                });
+            }, 100);
+
+            // 3. Final snap back to tab geometry
+            setTimeout(() => {
+                folderControls.start({
+                    top: startRect.top,
+                    left: startRect.left,
+                    rotate: 0,
+                    clipPath: 'polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%)',
+                    transition: { duration: 0.3, ease: 'easeInOut' }
+                }).then(() => {
+                    onStateChange(state === 'closing' ? 'idle' : 'archive-transition');
+                });
+            }, 600);
+        };
+
+        sequence();
+    }, [state, startRect, folderControls, titleControls, contentControls, onStateChange]);
+
+    // ── Force fullscreen styles when in 'detail' state ───
     useEffect(() => {
         if (state === 'detail') {
-            const t = setTimeout(() => {
-                animate(contentOpacity, 1, { duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] });
-                animate(contentY, 0, { duration: 0.42, ease: [0.25, 0.46, 0.45, 0.94] });
-            }, CONTENT_DELAY_S * 1000);
-            return () => clearTimeout(t);
-        } else if (state === 'opening' || state === 'closing') {
-            contentOpacity.set(0);
-            contentY.set(16);
+            folderControls.set({
+                top: 0, left: 0, width: '100dvw', height: '100dvh',
+                rotate: 0, clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
+            });
+            titleControls.set({ opacity: 1, y: 0 });
+            contentControls.set({ opacity: 1, y: 0 });
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state]);
-
-    // After wipe swap, fade new content in
-    useEffect(() => {
-        if (!isWiping && state === 'detail') {
-            contentOpacity.set(0);
-            contentY.set(16);
-            const t = setTimeout(() => {
-                animate(contentOpacity, 1, { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] });
-                animate(contentY, 0, { duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] });
-            }, 60);
-            return () => clearTimeout(t);
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [displayProject.id]);
-
-    // Headline visibility — hide during FLIP travel, show once settled
-    const headlineOpacity = state === 'opening' || state === 'closing' ? 0 : 1;
-
-    // ── Wipe: determine the correct headline clip-path ────────────────────────
-    // Only apply the animated clip when the wipe is in the reveal phase
-    const headlineStyle = isWiping
-        ? { clipPath: headlineClipPath, opacity: 1 }
-        : { opacity: headlineOpacity, transition: `opacity 0.3s ease ${CONTENT_DELAY_S * 0.5}s` };
+    }, [state, folderControls, titleControls, contentControls]);
 
     return (
         <>
-            {/* ── Main FLIP container ── */}
-            <div
+            {/* ── Main Folder Container ── */}
+            <motion.div
                 ref={containerRef}
+                animate={folderControls}
                 className="fixed z-[60] flex flex-col overflow-hidden will-change-transform"
                 data-archive-container
-                style={{ backgroundColor: displayProject.tabColor }}
+                style={{ backgroundColor: project.tabColor }}
                 role="dialog"
                 aria-modal="true"
-                aria-label={`Project: ${displayProject.title}`}
+                aria-label={`Project: ${project.title}`}
             >
                 {/* ── Nav bar ── */}
-                <nav
+                <motion.nav
+                    animate={contentControls}
                     className="relative w-full shrink-0 h-14 flex items-center justify-between px-5 md:px-10 border-b"
                     style={{ borderColor: 'rgba(20,20,20,0.12)' }}
                 >
@@ -251,47 +216,38 @@ const ProjectDetail = ({
                         Muizz Ahmed
                     </span>
 
-                    <a
-                        href="#about"
+                    <button
                         className="font-bold uppercase tracking-[0.1em] text-[11px] text-[#141414] hover:opacity-60 transition-opacity"
                         style={{ fontFamily: 'var(--font-body)' }}
-                        onClick={(e) => { e.preventDefault(); onClose(); }}
+                        onClick={onClose}
                     >
                         Archive
-                    </a>
-                </nav>
+                    </button>
+                </motion.nav>
 
                 {/* ── Scrollable body ── */}
                 <div className="flex-1 overflow-y-auto overflow-x-hidden" style={{ scrollbarWidth: 'none' }}>
-                    <div className="relative w-full px-5 md:px-12 lg:px-20 pt-10 md:pt-16 pb-24 max-w-[1440px] mx-auto">
+                    <div className="relative w-full px-5 md:px-12 lg:px-20 pt-6 md:pt-10 pb-24 max-w-[1440px] mx-auto">
 
                         {/* Giant headline */}
                         <motion.h1
-                            style={headlineStyle}
+                            animate={titleControls}
                             className="font-bold leading-[0.9] uppercase mb-8 md:mb-12 pr-20 md:pr-32"
                         >
-                            <span style={{
+                            <span className="block text-[#141414]/90" style={{
                                 fontFamily: 'var(--font-fraunces)',
-                                fontSize: 'clamp(3rem, 10vw, 9rem)',
-                                display: 'block',
-                                color: 'rgba(20,20,20,0.88)',
+                                fontSize: 'clamp(2.5rem, 9vw, 9rem)', // slightly smaller on mobile to fit
                                 letterSpacing: '-0.02em',
                             }}>
-                                {displayProject.title}
+                                {project.title}
                             </span>
                         </motion.h1>
 
                         {/* Content card */}
                         <motion.div
-                            style={{ opacity: contentOpacity, y: contentY }}
+                            animate={contentControls}
                             className="relative bg-[#FAF8F4] w-full rounded-lg md:rounded-xl shadow-[0_8px_48px_rgba(0,0,0,0.18)] p-6 md:p-12 lg:p-16"
                         >
-                            {/* Left-column dot markers */}
-                            <div className="hidden md:flex absolute -left-5 top-12 flex-col gap-3">
-                                <div className="w-2 h-2 rounded-full bg-[#141414]/20" />
-                                <div className="w-2 h-2 rounded-full bg-[#141414]/20" />
-                            </div>
-
                             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
 
                                 {/* ── Left: image + metadata ── */}
@@ -302,11 +258,11 @@ const ProjectDetail = ({
                                         aria-hidden="true"
                                     />
 
-                                    {displayProject.image ? (
+                                    {project.image ? (
                                         <div className="relative w-full bg-[#E8E5E0] p-3 shadow-sm border border-[#D8D5D0] rotate-[-0.8deg]">
                                             <img
-                                                src={displayProject.image}
-                                                alt={`Screenshot of ${displayProject.title}`}
+                                                src={project.image}
+                                                alt={`Screenshot of ${project.title}`}
                                                 className="w-full h-auto block grayscale contrast-[1.15]"
                                                 loading="lazy"
                                             />
@@ -322,22 +278,22 @@ const ProjectDetail = ({
                                     <div className="mt-6 space-y-0 divide-y divide-[#141414]/8">
                                         <div className="py-3">
                                             <p className="font-bold text-[10px] uppercase tracking-[0.12em] text-[#141414]/45 mb-1" style={{ fontFamily: 'var(--font-body)' }}>Type</p>
-                                            <p className="font-bold text-sm text-[#141414]" style={{ fontFamily: 'var(--font-body)' }}>{displayProject.type}</p>
+                                            <p className="font-bold text-sm text-[#141414]" style={{ fontFamily: 'var(--font-body)' }}>{project.type}</p>
                                         </div>
                                         <div className="py-3">
                                             <p className="font-bold text-[10px] uppercase tracking-[0.12em] text-[#141414]/45 mb-2" style={{ fontFamily: 'var(--font-body)' }}>Year</p>
-                                            <p className="font-bold text-sm text-[#141414]" style={{ fontFamily: 'var(--font-body)' }}>{displayProject.year}</p>
+                                            <p className="font-bold text-sm text-[#141414]" style={{ fontFamily: 'var(--font-body)' }}>{project.year}</p>
                                         </div>
-                                        {displayProject.status && (
+                                        {project.status && (
                                             <div className="py-3">
                                                 <p className="font-bold text-[10px] uppercase tracking-[0.12em] text-[#141414]/45 mb-1" style={{ fontFamily: 'var(--font-body)' }}>Status</p>
-                                                <p className="font-bold text-sm text-[#141414]" style={{ fontFamily: 'var(--font-body)' }}>{displayProject.status}</p>
+                                                <p className="font-bold text-sm text-[#141414]" style={{ fontFamily: 'var(--font-body)' }}>{project.status}</p>
                                             </div>
                                         )}
                                         <div className="py-3">
                                             <p className="font-bold text-[10px] uppercase tracking-[0.12em] text-[#141414]/45 mb-2" style={{ fontFamily: 'var(--font-body)' }}>Stack</p>
                                             <div className="flex flex-wrap gap-1.5">
-                                                {displayProject.stack.map((tech) => (
+                                                {project.stack.map((tech) => (
                                                     <span
                                                         key={tech}
                                                         className="font-bold text-[10px] uppercase tracking-wider text-[#141414] bg-[#141414]/6 border border-[#141414]/10 px-2 py-1"
@@ -349,9 +305,9 @@ const ProjectDetail = ({
                                             </div>
                                         </div>
                                         <div className="py-4 flex gap-5">
-                                            {displayProject.github && (
+                                            {project.github && (
                                                 <a
-                                                    href={displayProject.github}
+                                                    href={project.github}
                                                     target="_blank"
                                                     rel="noreferrer"
                                                     className="flex items-center gap-1.5 font-bold text-[11px] uppercase tracking-[0.1em] text-[#141414] hover:opacity-60 transition-opacity"
@@ -360,9 +316,9 @@ const ProjectDetail = ({
                                                     <FaGithub size={13} /> Source
                                                 </a>
                                             )}
-                                            {displayProject.link && displayProject.link !== '' && (
+                                            {project.link && project.link !== '' && (
                                                 <a
-                                                    href={displayProject.link}
+                                                    href={project.link}
                                                     target="_blank"
                                                     rel="noreferrer"
                                                     className="flex items-center gap-1.5 font-bold text-[11px] uppercase tracking-[0.1em] text-[#141414] hover:opacity-60 transition-opacity"
@@ -387,14 +343,14 @@ const ProjectDetail = ({
                                                 fontWeight: 800,
                                             }}
                                         >
-                                            {displayProject.description.charAt(0)}
+                                            {project.description.charAt(0)}
                                         </span>
-                                        {displayProject.description.slice(1)}
+                                        {project.description.slice(1)}
                                     </p>
 
-                                    {displayProject.highlights && displayProject.highlights.length > 0 && (
+                                    {project.highlights && project.highlights.length > 0 && (
                                         <div className="mt-8 space-y-5">
-                                            {displayProject.highlights.map((h, i) => (
+                                            {project.highlights.map((h, i) => (
                                                 <p
                                                     key={i}
                                                     className="text-[#141414]/75 text-[1.05rem] md:text-[1.1rem] leading-[1.75]"
@@ -410,26 +366,14 @@ const ProjectDetail = ({
                         </motion.div>
                     </div>
                 </div>
-
-                {/* ── Wipe overlay (child of container so it's clipped with it during FLIP) ── */}
-                {isWiping && nextProject && (
-                    <motion.div
-                        className="absolute inset-0 z-[70] pointer-events-none"
-                        style={{
-                            backgroundColor: nextProject.tabColor,
-                            clipPath: wipeClipPath,
-                            willChange: 'clip-path',
-                        }}
-                        aria-hidden="true"
-                    />
-                )}
-            </div>
+            </motion.div>
 
             {/* ── Navigation Rail (outside the container so it sits over everything) ── */}
-            {(state === 'detail' || state === 'switching') && (
+            {state !== 'idle' && state !== 'archive-transition' && (
                 <NavigationRail
-                    activeProjectId={displayProject.id}
+                    activeProjectId={project.id}
                     onRailClick={onRailClick}
+                    state={state}
                 />
             )}
         </>

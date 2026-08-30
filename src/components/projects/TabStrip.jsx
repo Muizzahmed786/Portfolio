@@ -2,7 +2,7 @@ import React from 'react';
 import FolderTab from './FolderTab.jsx';
 import { projects } from '../../data/portfolio.js';
 
-const TabStrip = ({ onTabClick, isLocked }) => {
+const TabStrip = ({ onTabClick, isLocked, activeProjectId, state = 'idle' }) => {
     return (
         <section
             id="projects"
@@ -10,7 +10,7 @@ const TabStrip = ({ onTabClick, isLocked }) => {
             style={{
                 backgroundColor: '#181818',
                 // Deliberately NOT min-h-screen — let content size it naturally
-                paddingTop: '7rem',     // clears the fixed navbar (64px) + breathing room
+                paddingTop: '6rem',     // clears the fixed navbar (64px) + breathing room
                 paddingBottom: 0,
             }}
             aria-label="Projects archive"
@@ -57,6 +57,8 @@ const TabStrip = ({ onTabClick, isLocked }) => {
                             project={project}
                             onClick={isLocked ? () => {} : onTabClick}
                             disabled={isLocked}
+                            state={state}
+                            activeProjectId={activeProjectId}
                         />
                     ))}
                 </div>

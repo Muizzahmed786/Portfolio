@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
+import { motion } from 'framer-motion';
 
-const FolderTab = ({ project, onClick, isActive = false, disabled = false }) => {
+const FolderTab = ({ project, onClick, isActive = false, disabled = false, state = 'idle', activeProjectId = null }) => {
     const tabRef = useRef(null);
 
     const handleClick = () => {
@@ -17,6 +18,8 @@ const FolderTab = ({ project, onClick, isActive = false, disabled = false }) => 
         }
     };
 
+    const isArchiveActive = state === 'idle' || state === 'archive-transition';
+
     return (
         /*
          * The clip-path for the trapezoid visually cuts the button, but the
@@ -24,7 +27,7 @@ const FolderTab = ({ project, onClick, isActive = false, disabled = false }) => 
          * visual element inside a transparent rectangular hit-area so we get
          * reliable click registration while preserving the tab appearance.
          */
-        <div
+        <motion.div
             ref={tabRef}
             role="tab"
             tabIndex={disabled ? -1 : 0}
@@ -32,6 +35,18 @@ const FolderTab = ({ project, onClick, isActive = false, disabled = false }) => 
             aria-disabled={disabled}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
+            data-tab-id={project.id}
+            initial={false}
+            animate={{
+                y: (!isArchiveActive && project.id !== activeProjectId) ? 40 : 0,
+                opacity: (!isArchiveActive && project.id !== activeProjectId) ? 0.35 : 
+                         (!isArchiveActive && project.id === activeProjectId) ? 0 : 1, // active tab hides instantly so ProjectDetail takes over, others subtly fade
+            }}
+            transition={{
+                duration: project.id !== activeProjectId ? 0.45 : 0.0, // active tab instantly invisible, others smooth
+                ease: [0.25, 0.46, 0.45, 0.94],
+                delay: project.id !== activeProjectId && !isArchiveActive ? 0.05 : 0.0, // slight delay for unselected tabs fading down
+            }}
             className={[
                 'relative flex items-end justify-center pb-0',
                 'h-14 md:h-[68px]',
@@ -69,7 +84,7 @@ const FolderTab = ({ project, onClick, isActive = false, disabled = false }) => 
                     aria-hidden="true"
                 />
             )}
-        </div>
+        </motion.div>
     );
 };
 
