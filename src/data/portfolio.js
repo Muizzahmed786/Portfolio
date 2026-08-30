@@ -108,6 +108,7 @@ export const projects = [
     type: "WEB APPLICATION",
     status: "COMPLETED",
     year: "2026",
+    tabColor: "#2345D0",
     stack: ["React.js", "Node.js", "Express.js", "MongoDB", "React Flow"],
     description:
       "A full-stack visual knowledge graph app where users build interactive concept maps with typed relationships and understanding-level tracking.",
@@ -125,6 +126,7 @@ export const projects = [
     type: "EVENT PLATFORM",
     status: "ACTIVE",
     year: "2026",
+    tabColor: "#17805F",
     stack: ["React.js", "Tailwind CSS", "REST API"],
     description:
       "Official website for Aurora'26 by ISTE Manipal, supporting 600+ registrations with team creation, join/leave flows, and full form validation.",
@@ -142,6 +144,7 @@ export const projects = [
     type: "DEVELOPER TOOL",
     status: "IN DEVELOPMENT",
     year: "2026",
+    tabColor: "#52116B",
     stack: ["React", "FastAPI", "Python", "Supabase", "React Flow", "D3.js"],
     description:
       "A full-stack analytical tool designed for developers to visualize and understand a repository's evolution by mining raw Git history.",
