@@ -257,9 +257,22 @@ body.custom-cursor-active * {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+  /* Ensure archive state machine transitions still complete */
+  [data-archive-container] {
+    transition-duration: 1ms !important;
+  }
 }
 
 /* Custom Cursor Ring Transitions */
 .custom-cursor-ring {
   transition: background-color 300ms ease-out, border-color 300ms ease-out, scale 300ms ease-out, opacity 300ms ease-out, box-shadow 300ms ease-out;
+}
+
+/* Hide scrollbars utility (used in ProjectDetail body) */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
