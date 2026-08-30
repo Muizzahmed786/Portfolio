@@ -196,38 +196,43 @@ const ProjectDetail = ({
                 {/* ── Nav bar ── */}
                 <motion.nav
                     animate={contentControls}
-                    className="relative w-full shrink-0 h-14 flex items-center justify-between px-5 md:px-10 border-b"
+                    className="relative w-full shrink-0 flex flex-col md:flex-row md:items-center justify-between border-b"
                     style={{ borderColor: 'rgba(20,20,20,0.12)' }}
                 >
-                    <button
-                        onClick={onClose}
-                        className="flex items-center gap-2 text-[#141414] hover:opacity-60 transition-opacity font-bold uppercase tracking-[0.1em] text-[11px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#141414]/40 rounded"
-                        style={{ fontFamily: 'var(--font-body)' }}
-                        aria-label="Close project and return to archive"
-                    >
-                        <ArrowLeft size={14} strokeWidth={2.5} />
-                        Back
-                    </button>
+                    {/* Top row (always visible) / Left side (desktop) */}
+                    <div className="flex items-center justify-between h-14 px-5 md:px-10 w-full md:w-auto relative">
+                        <button
+                            onClick={onClose}
+                            className="flex items-center gap-2 text-[#141414] hover:opacity-60 transition-opacity font-bold uppercase tracking-[0.1em] text-[11px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#141414]/40 rounded"
+                            style={{ fontFamily: 'var(--font-body)' }}
+                            aria-label="Close project and return to archive"
+                        >
+                            <ArrowLeft size={14} strokeWidth={2.5} />
+                            Back
+                        </button>
+                    </div>
 
+                    {/* Name - Centered globally in the top row */}
                     <span
-                        className="absolute left-1/2 -translate-x-1/2 font-bold uppercase tracking-[0.18em] text-[11px] text-[#141414]"
+                        className="absolute left-1/2 -translate-x-1/2 top-[20px] md:top-1/2 md:-translate-y-1/2 font-bold uppercase tracking-[0.18em] text-[11px] text-[#141414] pointer-events-none"
                         style={{ fontFamily: 'var(--font-body)' }}
                     >
                         Muizz Ahmed
                     </span>
 
-                    <button
-                        className="font-bold uppercase tracking-[0.1em] text-[11px] text-[#141414] hover:opacity-60 transition-opacity"
-                        style={{ fontFamily: 'var(--font-body)' }}
-                        onClick={onClose}
-                    >
-                        Archive
-                    </button>
+                    {/* Navigation Rail - Row 2 on mobile / Right side on desktop */}
+                    <div className="flex items-center justify-center md:justify-end h-12 md:h-14 px-5 md:px-10 w-full md:w-auto border-t md:border-t-0 border-[#141414]/10">
+                        <NavigationRail
+                            activeProjectId={project.id}
+                            onRailClick={onRailClick}
+                            state={state}
+                        />
+                    </div>
                 </motion.nav>
 
                 {/* ── Scrollable body ── */}
                 <div className="flex-1 overflow-y-auto overflow-x-hidden" style={{ scrollbarWidth: 'none' }}>
-                    <div className="relative w-full px-5 md:px-12 lg:px-20 pt-6 md:pt-10 pb-24 max-w-[1440px] mx-auto">
+                    <div className="relative w-full px-5 md:px-12 lg:px-20 pt-6 md:pt-10 pb-40 md:pb-48 lg:pb-56 max-w-[1440px] mx-auto">
 
                         {/* Giant headline */}
                         <motion.h1
@@ -368,14 +373,8 @@ const ProjectDetail = ({
                 </div>
             </motion.div>
 
-            {/* ── Navigation Rail (outside the container so it sits over everything) ── */}
-            {state !== 'idle' && state !== 'archive-transition' && (
-                <NavigationRail
-                    activeProjectId={project.id}
-                    onRailClick={onRailClick}
-                    state={state}
-                />
-            )}
+            {/* ── Removed Floating Navigation Rail ── */}
+            {/* The project navigation is now located in the top <nav> header. */}
         </>
     );
 };

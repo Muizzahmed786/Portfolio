@@ -1,74 +1,65 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { projects } from '../../data/portfolio.js';
 
-const RAIL_TAB_HEIGHT = 120; // px — h-[120px]
-const RAIL_TAB_GAP    = 8;   // px gap between tabs
-
 const NavigationRail = ({ activeProjectId, onRailClick, state = 'detail' }) => {
-    const total = projects.length;
-    const stackHeight = total * RAIL_TAB_HEIGHT + (total - 1) * RAIL_TAB_GAP;
-
-    const isVisible = state === 'detail';
-
     return (
-        <div
-            className="fixed right-0 top-0 bottom-0 z-[65] flex flex-col items-end justify-center pointer-events-none"
-            style={{ width: '64px' }}
-            aria-label="Project navigation"
+        <div 
+            className="flex items-center gap-4 md:gap-6 lg:gap-8 pointer-events-auto"
+            aria-label="Project index"
             role="navigation"
         >
-            <div
-                className="relative pointer-events-auto"
-                style={{ height: stackHeight, width: '64px' }}
-            >
-                {projects.map((project, index) => {
-                    const isActive = project.id === activeProjectId;
-                    const top = index * (RAIL_TAB_HEIGHT + RAIL_TAB_GAP);
+            {projects.map((project, index) => {
+                const isActive = project.id === activeProjectId;
+                
+                // On narrow screens (mobile), "Aurora'26 Web Portal" might be too long.
+                // We'll use a responsive span approach to hide "WEB PORTAL" on very small screens,
+                // but keep the full title available for accessibility.
+                const isLongName = project.title.toLowerCase().includes('aurora');
+                const displayName = isLongName ? (
+                    <>
+                        <span>AURORA'26</span>
+                        <span className="hidden sm:inline"> WEB PORTAL</span>
+                    </>
+                ) : project.title;
 
-                    return (
-                        <button
-                            key={project.id}
-                            onClick={() => !isActive && onRailClick(project.id)}
-                            disabled={isActive || !isVisible}
-                            aria-label={`Switch to ${project.title}`}
-                            aria-pressed={isActive}
-                            className={[
-                                'absolute right-0 flex items-center justify-center',
-                                'focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50',
-                                'transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]',
-                                !isVisible
-                                    ? 'translate-x-full opacity-0'
-                                    : isActive
-                                        ? 'translate-x-0 z-20 cursor-default'
-                                        : 'translate-x-10 z-10 opacity-55 hover:opacity-85 hover:translate-x-6 cursor-pointer',
-                            ].join(' ')}
-                            style={{
-                                top,
-                                width: '64px',
-                                height: `${RAIL_TAB_HEIGHT}px`,
-                                backgroundColor: project.tabColor,
-                                // Angled left side, flat right side — visible tab peek
-                                clipPath: 'polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%)',
-                                borderRadius: '6px 0 0 6px',
-                                transformOrigin: 'right center',
+                return (
+                    <motion.button
+                        key={project.id}
+                        onClick={() => !isActive && onRailClick(project.id)}
+                        disabled={isActive}
+                        aria-label={`Switch to ${project.title}`}
+                        aria-pressed={isActive}
+                        initial={false}
+                        whileHover={!isActive ? {
+                            y: -2, 
+                            opacity: 1
+                        } : {}}
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                        className={[
+                            'relative focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded-sm',
+                            'font-bold tracking-[0.1em] uppercase whitespace-nowrap select-none transition-colors duration-200',
+                            'text-[10px] md:text-[11px]',
+                            isActive ? 'text-[#141414] cursor-default' : 'text-[#141414]/50 hover:text-[#141414] cursor-pointer'
+                        ].join(' ')}
+                        style={{ fontFamily: 'var(--font-body)' }}
+                    >
+                        {displayName}
+
+                        {/* Active Underline */}
+                        <motion.div
+                            initial={false}
+                            animate={{
+                                scaleX: isActive ? 1 : 0,
+                                opacity: isActive ? 1 : 0
                             }}
-                        >
-                            <span
-                                className="font-bold text-[10px] tracking-[0.1em] uppercase text-[#141414] whitespace-nowrap select-none"
-                                style={{
-                                    fontFamily: 'var(--font-body)',
-                                    writingMode: 'vertical-rl',
-                                    transform: 'rotate(180deg)',
-                                    // Shift text left slightly to account for the clipped left-angled edge
-                                    marginLeft: '-6px',
-                                }}
-                            >
-                                {project.title}
-                            </span>
-                        </button>
-                    );
-                })}
-            </div>
+                            transition={{ duration: 0.25, ease: 'easeOut' }}
+                            className="absolute -bottom-[4px] left-0 right-0 h-[2px] origin-left"
+                            style={{ backgroundColor: project.tabColor }}
+                        />
+                    </motion.button>
+                );
+            })}
         </div>
     );
 };
