@@ -103,7 +103,11 @@ export const skills = [
 
 export const projects = [
   {
+    id: "conceptmap",
     title: "ConceptMap",
+    type: "WEB APPLICATION",
+    status: "COMPLETED",
+    year: "2026",
     stack: ["React.js", "Node.js", "Express.js", "MongoDB", "React Flow"],
     description:
       "A full-stack visual knowledge graph app where users build interactive concept maps with typed relationships and understanding-level tracking.",
@@ -116,7 +120,11 @@ export const projects = [
     github: "https://github.com/Muizzahmed786/ConceptMap", // add if public
   },
   {
+    id: "aurora",
     title: "Aurora'26 Web Portal",
+    type: "EVENT PLATFORM",
+    status: "ACTIVE",
+    year: "2026",
     stack: ["React.js", "Tailwind CSS", "REST API"],
     description:
       "Official website for Aurora'26 by ISTE Manipal, supporting 600+ registrations with team creation, join/leave flows, and full form validation.",
@@ -129,7 +137,11 @@ export const projects = [
     github: "https://github.com/ISTE-26/Aurora-26/",
   },
   {
+    id: "gitcompass",
     title: "GitCompass",
+    type: "DEVELOPER TOOL",
+    status: "IN DEVELOPMENT",
+    year: "2026",
     stack: ["React", "FastAPI", "Python", "Supabase", "React Flow", "D3.js"],
     description:
       "A full-stack analytical tool designed for developers to visualize and understand a repository's evolution by mining raw Git history.",
