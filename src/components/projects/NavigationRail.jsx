@@ -37,12 +37,11 @@ const NavigationRail = ({ activeProjectId, onRailClick, state = 'detail' }) => {
                         } : {}}
                         transition={{ duration: 0.2, ease: 'easeOut' }}
                         className={[
-                            'relative focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded-sm',
-                            'font-bold tracking-[0.1em] uppercase whitespace-nowrap select-none transition-colors duration-200',
+                            'relative focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 rounded-sm',
+                            'font-mono font-bold tracking-[0.12em] uppercase whitespace-nowrap select-none transition-colors duration-200',
                             'text-[10px] md:text-[11px]',
-                            isActive ? 'text-[#141414] cursor-default' : 'text-[#141414]/50 hover:text-[#141414] cursor-pointer'
+                            isActive ? 'text-emerald-400 cursor-default' : 'text-white/60 hover:text-white cursor-pointer'
                         ].join(' ')}
-                        style={{ fontFamily: 'var(--font-body)' }}
                     >
                         {displayName}
 
@@ -54,8 +53,7 @@ const NavigationRail = ({ activeProjectId, onRailClick, state = 'detail' }) => {
                                 opacity: isActive ? 1 : 0
                             }}
                             transition={{ duration: 0.25, ease: 'easeOut' }}
-                            className="absolute -bottom-[4px] left-0 right-0 h-[2px] origin-left"
-                            style={{ backgroundColor: project.tabColor }}
+                            className="absolute -bottom-[4px] left-0 right-0 h-[2px] origin-left bg-emerald-400"
                         />
                     </motion.button>
                 );

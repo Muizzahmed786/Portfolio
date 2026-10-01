@@ -1,59 +1,53 @@
 import React from 'react';
-import FolderTab from './FolderTab.jsx';
+import FolderLayer from './FolderLayer.jsx';
 import { projects } from '../../data/portfolio.js';
+import SectionHeader from '../SectionHeader.jsx';
+import Reveal from '../Reveal.jsx';
 
 const TabStrip = ({ onTabClick, isLocked, activeProjectId, state = 'idle' }) => {
     return (
         <section
             id="projects"
-            className="relative z-0 scroll-mt-16 flex flex-col"
-            style={{
-                backgroundColor: '#181818',
-                // Deliberately NOT min-h-screen — let content size it naturally
-                paddingTop: '6rem',     // clears the fixed navbar (64px) + breathing room
-                paddingBottom: 0,
-            }}
+            className="portfolio-section flex flex-col"
             aria-label="Projects archive"
         >
-            <div className="relative z-10 w-full max-w-[1200px] mx-auto px-5 md:px-10 lg:px-16 flex flex-col">
+            <div className="content-container flex flex-col">
+                
+                {/* Unified Section Header */}
+                <SectionHeader
+                    index="04"
+                    label="SELECTED WORK"
+                    title="FEATURED PROJECTS"
+                    subtitle="Interactive web platforms, developer intelligence tools, and data architectures. Click any dossier below to explore technical implementation."
+                />
 
-                {/* Eyebrow — no Reveal wrapper, render immediately */}
-                <p
-                    className="font-bold uppercase tracking-[0.18em] text-[11px] mb-4"
-                    style={{ fontFamily: 'var(--font-body)', color: 'rgba(242,242,238,0.45)' }}
-                >
-                    // Selected Work
-                </p>
+                {/* ── Developer Archive Dossier Telemetry Header ── */}
+                <Reveal delay={0.1}>
+                    <div className="flex items-center justify-between font-mono text-[10px] md:text-[11px] text-white/50 border-b border-white/[0.08] pb-3 mt-2 mb-2">
+                        <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                            <span className="text-emerald-400 font-bold uppercase tracking-widest">
+                                ARCHIVE // DISPATCH_READY
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <span className="hidden sm:inline text-white/40">SYS_INDEX: 01-03</span>
+                            <span className="hidden sm:inline text-white/20">//</span>
+                            <span className="text-white/60 font-semibold">3 TECHNICAL DOSSIERS</span>
+                        </div>
+                    </div>
+                </Reveal>
 
-                {/* Archive heading */}
-                <h2
-                    className="text-[#F2F2EE] leading-[0.9] mb-8"
-                    style={{
-                        fontFamily: 'var(--font-fraunces)',
-                        fontSize: 'clamp(3.5rem, 10vw, 7rem)',
-                        fontWeight: 800,
-                        letterSpacing: '-0.02em',
-                    }}
-                >
-                    Projects
-                </h2>
-
-                <p
-                    className="max-w-lg text-base md:text-lg leading-[1.65] mb-10 md:mb-12"
-                    style={{ fontFamily: 'var(--font-source-serif)', color: 'rgba(242,242,238,0.55)' }}
-                >
-                    A collection of recent work spanning web applications, developer tools, and interactive experiences. Click any tab to explore.
-                </p>
-
-                {/* ─── Tab strip ─── */}
+                {/* ── Bento Grid: Varied Card Sizes & Zero Overlap ── */}
                 <div
-                    className="w-full flex flex-nowrap md:flex-wrap items-end overflow-x-auto no-scrollbar gap-1.5"
+                    className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 mt-4"
                     role="tablist"
-                    aria-label="Select a project"
+                    aria-label="Select a project dossier"
                 >
-                    {projects.map((project) => (
-                        <FolderTab
+                    {projects.map((project, index) => (
+                        <FolderLayer
                             key={project.id}
+                            index={index}
                             project={project}
                             onClick={isLocked ? () => {} : onTabClick}
                             disabled={isLocked}
@@ -64,10 +58,10 @@ const TabStrip = ({ onTabClick, isLocked, activeProjectId, state = 'idle' }) => 
                 </div>
             </div>
 
-            {/* Thin separator line at the very bottom, flush with tabs */}
+            {/* Subtle separator line */}
             <div
-                className="w-full mt-0"
-                style={{ height: '1px', backgroundColor: 'rgba(242,242,238,0.08)' }}
+                className="w-full mt-16"
+                style={{ height: '1px', backgroundColor: 'rgba(255,255,255,0.06)' }}
                 aria-hidden="true"
             />
         </section>

@@ -21,15 +21,15 @@ const BentoCard = ({
     const handlePointerDown = () => dispatchInteraction('bento-click');
 
     // Base classes for the card
-    const baseClasses = "relative bg-surface rounded-sm overflow-hidden flex flex-col";
+    const baseClasses = "relative rounded-xl overflow-hidden flex flex-col transition-all duration-300";
     
     // Padding logic
     const paddingClasses = noPadding ? "" : "p-6 md:p-8";
     
     // Border and shadow logic based on featured vs normal
     const borderClasses = featured 
-        ? "border-2 border-border bento-featured" 
-        : "border border-border bento-hover";
+        ? "bento-featured" 
+        : "bento-hover";
 
     return (
         <div 

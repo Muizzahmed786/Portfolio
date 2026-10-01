@@ -57,6 +57,24 @@
   --space-xl:   96px;
   --space-2xl:  128px;
 
+  /* Layout & Spacing Tokens */
+  --navbar-height: 72px;
+  --section-scroll-margin: 104px;
+  --content-max-width: 1200px;
+  --section-padding-y: 80px;
+
+  /* Universal Panel Design System */
+  --panel-bg: rgba(18, 19, 23, 0.72);
+  --panel-bg-hover: rgba(23, 24, 30, 0.82);
+  --panel-bg-featured: rgba(20, 22, 28, 0.78);
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --panel-border-hover: rgba(245, 197, 24, 0.35);
+  --panel-border-featured: rgba(245, 197, 24, 0.25);
+  --panel-radius: 14px;
+  --panel-backdrop: blur(16px);
+  --panel-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --panel-shadow-hover: 0 20px 48px -8px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
   /* Typography */
   --font-heading: "Equinox", "Space Grotesk", sans-serif;
   --font-display: "Space Grotesk", sans-serif;
@@ -75,6 +93,44 @@
   --transition-fast: 0.2s ease;
   --transition-base: 0.25s var(--ease-out-expo);
   --transition-slow: 0.6s var(--ease-out-expo);
+}
+
+/* Global Content Container */
+.content-container {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+@media (min-width: 768px) {
+  .content-container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .content-container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+/* Standardized Section Anchor & Spacing */
+.portfolio-section {
+  position: relative;
+  z-index: 10;
+  scroll-margin-top: var(--section-scroll-margin);
+  padding-top: 4.5rem;
+  padding-bottom: 4.5rem;
+  background-color: transparent;
+}
+@media (min-width: 768px) {
+  .portfolio-section {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
 }
 
 body {
@@ -185,27 +241,81 @@ body.custom-cursor-active * {
   color: var(--color-accent);
 }
 
-/* Bento & Neo-Brutalism Classes */
+/* Universal Panel System */
 .bento-hover {
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease, flex 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  background: var(--panel-bg);
+  backdrop-filter: var(--panel-backdrop);
+  -webkit-backdrop-filter: var(--panel-backdrop);
+  border: 1px solid var(--panel-border);
+  box-shadow: var(--panel-shadow);
+  border-radius: var(--panel-radius);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), 
+              box-shadow 0.3s ease, 
+              border-color 0.3s ease, 
+              background-color 0.3s ease;
 }
 
 .bento-hover:hover {
-  transform: translate(-2px, -2px);
-  border-color: rgba(245, 197, 24, 0.35);
-  box-shadow: 4px 4px 0 rgba(245, 197, 24, 0.15);
+  transform: translateY(-2px);
+  border-color: var(--panel-border-hover);
+  box-shadow: var(--panel-shadow-hover), 0 0 24px rgba(245, 197, 24, 0.1);
+  background: var(--panel-bg-hover);
 }
 
 .bento-featured {
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease, flex 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: 4px 4px 0 rgba(245, 197, 24, 0.15);
+  background: var(--panel-bg-featured);
+  backdrop-filter: var(--panel-backdrop);
+  -webkit-backdrop-filter: var(--panel-backdrop);
+  border: 1px solid var(--panel-border-featured);
+  box-shadow: var(--panel-shadow);
+  border-radius: var(--panel-radius);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), 
+              box-shadow 0.3s ease, 
+              border-color 0.3s ease, 
+              background-color 0.3s ease;
 }
 
 .bento-featured:hover {
-  transform: translate(-2px, -2px);
-  border-color: rgba(245, 197, 24, 0.4);
-  box-shadow: 6px 6px 0 rgba(245, 197, 24, 0.25);
-  background: var(--color-accent-muted);
+  transform: translateY(-2px);
+  border-color: rgba(245, 197, 24, 0.5);
+  box-shadow: var(--panel-shadow-hover), 0 0 32px rgba(245, 197, 24, 0.15);
+  background: var(--panel-bg-hover);
+}
+
+/* Technical Dossier Bento & Tab Styles */
+.dossier-card {
+  background: var(--panel-bg);
+  backdrop-filter: var(--panel-backdrop);
+  -webkit-backdrop-filter: var(--panel-backdrop);
+  border: 1px solid var(--panel-border);
+  box-shadow: var(--panel-shadow);
+  border-radius: var(--panel-radius);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.3s ease,
+              box-shadow 0.3s ease,
+              background-color 0.3s ease;
+}
+
+.dossier-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(16, 185, 129, 0.35);
+  box-shadow: var(--panel-shadow-hover), 0 0 24px rgba(16, 185, 129, 0.08);
+  background: var(--panel-bg-hover);
+}
+
+.dossier-tab {
+  background: var(--panel-bg);
+  backdrop-filter: var(--panel-backdrop);
+  -webkit-backdrop-filter: var(--panel-backdrop);
+  border-top: 1px solid var(--panel-border);
+  border-left: 1px solid var(--panel-border);
+  border-right: 1px solid var(--panel-border);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.group:hover .dossier-tab {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: var(--panel-bg-hover);
 }
 
 /* Editorial Typography */
